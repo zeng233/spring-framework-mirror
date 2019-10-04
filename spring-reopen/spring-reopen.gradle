@@ -1,0 +1,12 @@
+description = "Spring AOP"
+
+dependencies {
+	optional("junit:junit:4.12")
+
+//	单独测试最简单的ioc容器
+	compile(project(":spring-beans"))
+
+	compile(project(":spring-context"))
+
+
+}

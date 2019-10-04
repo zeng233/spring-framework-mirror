@@ -10,6 +10,10 @@ dependencies {
 	optional("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
 	optional("org.jetbrains.kotlin:kotlin-stdlib:${kotlinVersion}")
 	testCompile("org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}")
+
+	//	自测添加
+	compile("log4j:log4j:1.2.17")
+	optional("junit:junit:4.12")
 }
 
 // This module does joint compilation for Java and Groovy code with the compileGroovy task.
@@ -25,6 +29,13 @@ compileGroovy {
 
 // This module also builds Kotlin code and the compileKotlin task naturally depends on
 // compileJava. We need to redefine dependencies to break task cycles.
-compileGroovy.dependsOn = compileGroovy.taskDependencies.values - "compileJava"
+//5.0.13release版本这里编译有问题，需要修改为master一样的配置
+//compileGroovy.dependsOn = compileGroovy.taskDependencies.values - "compileJava"
+//compileKotlin.dependsOn(compileGroovy)
+//compileKotlin.classpath += files(compileGroovy.destinationDir)
+
+//修改为master一样的配置，这里deps需要gradle4.5以上版本
+def deps = compileGroovy.taskDependencies.immutableValues + compileGroovy.taskDependencies.mutableValues
+compileGroovy.dependsOn = deps - "compileJava"
 compileKotlin.dependsOn(compileGroovy)
 compileKotlin.classpath += files(compileGroovy.destinationDir)
