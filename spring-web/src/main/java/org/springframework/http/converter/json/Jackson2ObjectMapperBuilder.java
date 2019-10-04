@@ -18,7 +18,6 @@ package org.springframework.http.converter.json;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -62,8 +61,6 @@ import org.springframework.core.KotlinDetector;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
 import org.springframework.util.xml.StaxUtils;
 
@@ -299,7 +296,7 @@ public class Jackson2ObjectMapperBuilder {
 	 * @param mixinSource class (or interface) whose annotations are to be "added"
 	 * to target's annotations as value
 	 * @since 4.1.2
-	 * @see com.fasterxml.jackson.databind.ObjectMapper#addMixIn(Class, Class)
+	 * @see com.fasterxml.jackson.databind.ObjectMapper#addMixInAnnotations(Class, Class)
 	 */
 	public Jackson2ObjectMapperBuilder mixIn(Class<?> target, Class<?> mixinSource) {
 		this.mixIns.put(target, mixinSource);
@@ -308,11 +305,11 @@ public class Jackson2ObjectMapperBuilder {
 
 	/**
 	 * Add mix-in annotations to use for augmenting specified class or interface.
-	 * @param mixIns a Map of entries with target classes (or interface) whose annotations
+	 * @param mixIns Map of entries with target classes (or interface) whose annotations
 	 * to effectively override as key and mix-in classes (or interface) whose
 	 * annotations are to be "added" to target's annotations as value.
 	 * @since 4.1.2
-	 * @see com.fasterxml.jackson.databind.ObjectMapper#addMixIn(Class, Class)
+	 * @see com.fasterxml.jackson.databind.ObjectMapper#addMixInAnnotations(Class, Class)
 	 */
 	public Jackson2ObjectMapperBuilder mixIns(Map<Class<?>, Class<?>> mixIns) {
 		this.mixIns.putAll(mixIns);
@@ -337,8 +334,8 @@ public class Jackson2ObjectMapperBuilder {
 
 	/**
 	 * Configure a custom serializer for the given type.
-	 * @since 4.1.2
 	 * @see #serializers(JsonSerializer...)
+	 * @since 4.1.2
 	 */
 	public Jackson2ObjectMapperBuilder serializerByType(Class<?> type, JsonSerializer<?> serializer) {
 		this.serializers.put(type, serializer);
@@ -482,8 +479,6 @@ public class Jackson2ObjectMapperBuilder {
 
 	/**
 	 * Specify one or more modules to be registered with the {@link ObjectMapper}.
-	 * Multiple invocations are not additive, the last one defines the modules to
-	 * register.
 	 * <p>Note: If this is set, no finding of modules is going to happen - not by
 	 * Jackson, and not by Spring either (see {@link #findModulesViaServiceLoader}).
 	 * As a consequence, specifying an empty list here will suppress any kind of
@@ -499,8 +494,6 @@ public class Jackson2ObjectMapperBuilder {
 
 	/**
 	 * Set a complete list of modules to be registered with the {@link ObjectMapper}.
-	 * Multiple invocations are not additive, the last one defines the modules to
-	 * register.
 	 * <p>Note: If this is set, no finding of modules is going to happen - not by
 	 * Jackson, and not by Spring either (see {@link #findModulesViaServiceLoader}).
 	 * As a consequence, specifying an empty list here will suppress any kind of
@@ -518,8 +511,6 @@ public class Jackson2ObjectMapperBuilder {
 
 	/**
 	 * Specify one or more modules to be registered with the {@link ObjectMapper}.
-	 * Multiple invocations are not additive, the last one defines the modules
-	 * to register.
 	 * <p>Modules specified here will be registered after
 	 * Spring's autodetection of JSR-310 and Joda-Time, or Jackson's
 	 * finding of modules (see {@link #findModulesViaServiceLoader}),
@@ -536,8 +527,7 @@ public class Jackson2ObjectMapperBuilder {
 
 	/**
 	 * Specify one or more modules by class to be registered with
-	 * the {@link ObjectMapper}. Multiple invocations are not additive,
-	 * the last one defines the modules to register.
+	 * the {@link ObjectMapper}.
 	 * <p>Modules specified here will be registered after
 	 * Spring's autodetection of JSR-310 and Joda-Time, or Jackson's
 	 * finding of modules (see {@link #findModulesViaServiceLoader}),
@@ -627,27 +617,24 @@ public class Jackson2ObjectMapperBuilder {
 	public void configure(ObjectMapper objectMapper) {
 		Assert.notNull(objectMapper, "ObjectMapper must not be null");
 
-		MultiValueMap<Object, Module> modulesToRegister = new LinkedMultiValueMap<>();
+		Map<Object, Module> modulesToRegister = new LinkedHashMap<>();
 		if (this.findModulesViaServiceLoader) {
-			ObjectMapper.findModules(this.moduleClassLoader).forEach(module -> registerModule(module, modulesToRegister));
+			ObjectMapper.findModules(this.moduleClassLoader).forEach(module -> modulesToRegister.put(module.getTypeId(), module));
 		}
 		else if (this.findWellKnownModules) {
 			registerWellKnownModulesIfAvailable(modulesToRegister);
 		}
 
 		if (this.modules != null) {
-			this.modules.forEach(module -> registerModule(module, modulesToRegister));
+			this.modules.forEach(module -> modulesToRegister.put(module.getTypeId(), module));
 		}
 		if (this.moduleClasses != null) {
 			for (Class<? extends Module> moduleClass : this.moduleClasses) {
-				registerModule(BeanUtils.instantiateClass(moduleClass), modulesToRegister);
+				Module module = BeanUtils.instantiateClass(moduleClass);
+				modulesToRegister.put(module.getTypeId(), module);
 			}
 		}
-		List<Module> modules = new ArrayList<>();
-		for (List<Module> nestedModules : modulesToRegister.values()) {
-			modules.addAll(nestedModules);
-		}
-		objectMapper.registerModules(modules);
+		objectMapper.registerModules(modulesToRegister.values());
 
 		if (this.dateFormat != null) {
 			objectMapper.setDateFormat(this.dateFormat);
@@ -697,15 +684,6 @@ public class Jackson2ObjectMapperBuilder {
 		}
 	}
 
-	private void registerModule(Module module, MultiValueMap<Object, Module> modulesToRegister) {
-		if (module.getTypeId() == null) {
-			modulesToRegister.add(SimpleModule.class.getName(), module);
-		}
-		else {
-			modulesToRegister.set(module.getTypeId(), module);
-		}
-	}
-
 
 	// Any change to this method should be also applied to spring-jms and spring-messaging
 	// MappingJackson2MessageConverter default constructors
@@ -752,12 +730,12 @@ public class Jackson2ObjectMapperBuilder {
 	}
 
 	@SuppressWarnings("unchecked")
-	private void registerWellKnownModulesIfAvailable(MultiValueMap<Object, Module> modulesToRegister) {
+	private void registerWellKnownModulesIfAvailable(Map<Object, Module> modulesToRegister) {
 		try {
 			Class<? extends Module> jdk8ModuleClass = (Class<? extends Module>)
 					ClassUtils.forName("com.fasterxml.jackson.datatype.jdk8.Jdk8Module", this.moduleClassLoader);
 			Module jdk8Module = BeanUtils.instantiateClass(jdk8ModuleClass);
-			modulesToRegister.set(jdk8Module.getTypeId(), jdk8Module);
+			modulesToRegister.put(jdk8Module.getTypeId(), jdk8Module);
 		}
 		catch (ClassNotFoundException ex) {
 			// jackson-datatype-jdk8 not available
@@ -767,7 +745,7 @@ public class Jackson2ObjectMapperBuilder {
 			Class<? extends Module> javaTimeModuleClass = (Class<? extends Module>)
 					ClassUtils.forName("com.fasterxml.jackson.datatype.jsr310.JavaTimeModule", this.moduleClassLoader);
 			Module javaTimeModule = BeanUtils.instantiateClass(javaTimeModuleClass);
-			modulesToRegister.set(javaTimeModule.getTypeId(), javaTimeModule);
+			modulesToRegister.put(javaTimeModule.getTypeId(), javaTimeModule);
 		}
 		catch (ClassNotFoundException ex) {
 			// jackson-datatype-jsr310 not available
@@ -779,7 +757,7 @@ public class Jackson2ObjectMapperBuilder {
 				Class<? extends Module> jodaModuleClass = (Class<? extends Module>)
 						ClassUtils.forName("com.fasterxml.jackson.datatype.joda.JodaModule", this.moduleClassLoader);
 				Module jodaModule = BeanUtils.instantiateClass(jodaModuleClass);
-				modulesToRegister.set(jodaModule.getTypeId(), jodaModule);
+				modulesToRegister.put(jodaModule.getTypeId(), jodaModule);
 			}
 			catch (ClassNotFoundException ex) {
 				// jackson-datatype-joda not available
@@ -792,7 +770,7 @@ public class Jackson2ObjectMapperBuilder {
 				Class<? extends Module> kotlinModuleClass = (Class<? extends Module>)
 						ClassUtils.forName("com.fasterxml.jackson.module.kotlin.KotlinModule", this.moduleClassLoader);
 				Module kotlinModule = BeanUtils.instantiateClass(kotlinModuleClass);
-				modulesToRegister.set(kotlinModule.getTypeId(), kotlinModule);
+				modulesToRegister.put(kotlinModule.getTypeId(), kotlinModule);
 			}
 			catch (ClassNotFoundException ex) {
 				if (!kotlinWarningLogged) {

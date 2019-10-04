@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2019 the original author or authors.
+ * Copyright 2002-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -70,10 +70,10 @@ class UndertowServerHttpRequest extends AbstractServerHttpRequest {
 	}
 
 	private static URI initUri(HttpServerExchange exchange) throws URISyntaxException {
-		Assert.notNull(exchange, "HttpServerExchange is required");
+		Assert.notNull(exchange, "HttpServerExchange is required.");
 		String requestURL = exchange.getRequestURL();
 		String query = exchange.getQueryString();
-		String requestUriAndQuery = (StringUtils.hasLength(query) ? requestURL + "?" + query : requestURL);
+		String requestUriAndQuery = StringUtils.isEmpty(query) ? requestURL : requestURL + "?" + query;
 		return new URI(requestUriAndQuery);
 	}
 
@@ -171,10 +171,12 @@ class UndertowServerHttpRequest extends AbstractServerHttpRequest {
 			boolean release = true;
 			try {
 				ByteBuffer byteBuffer = pooledByteBuffer.getBuffer();
+
 				int read = this.channel.read(byteBuffer);
 				if (logger.isTraceEnabled()) {
 					logger.trace("Channel read returned " + read + (read != -1 ? " bytes" : ""));
 				}
+
 				if (read > 0) {
 					byteBuffer.flip();
 					DataBuffer dataBuffer = this.bufferFactory.wrap(byteBuffer);
@@ -185,8 +187,7 @@ class UndertowServerHttpRequest extends AbstractServerHttpRequest {
 					onAllDataRead();
 				}
 				return null;
-			}
-			finally {
+			} finally {
 				if (release && pooledByteBuffer.isOpen()) {
 					pooledByteBuffer.close();
 				}
@@ -198,7 +199,6 @@ class UndertowServerHttpRequest extends AbstractServerHttpRequest {
 			// Nothing to discard since we pass data buffers on immediately..
 		}
 	}
-
 
 	private static class UndertowDataBuffer implements PooledDataBuffer {
 
@@ -299,7 +299,8 @@ class UndertowServerHttpRequest extends AbstractServerHttpRequest {
 		}
 
 		@Override
-		public DataBuffer read(byte[] destination, int offset, int length) {
+		public DataBuffer read(byte[] destination, int offset,
+				int length) {
 			return this.dataBuffer.read(destination, offset, length);
 		}
 
@@ -314,17 +315,20 @@ class UndertowServerHttpRequest extends AbstractServerHttpRequest {
 		}
 
 		@Override
-		public DataBuffer write(byte[] source, int offset, int length) {
+		public DataBuffer write(byte[] source, int offset,
+				int length) {
 			return this.dataBuffer.write(source, offset, length);
 		}
 
 		@Override
-		public DataBuffer write(DataBuffer... buffers) {
+		public DataBuffer write(
+				DataBuffer... buffers) {
 			return this.dataBuffer.write(buffers);
 		}
 
 		@Override
-		public DataBuffer write(ByteBuffer... byteBuffers) {
+		public DataBuffer write(
+				ByteBuffer... byteBuffers) {
 			return this.dataBuffer.write(byteBuffers);
 		}
 
@@ -358,5 +362,4 @@ class UndertowServerHttpRequest extends AbstractServerHttpRequest {
 			return this.dataBuffer.asOutputStream();
 		}
 	}
-
 }

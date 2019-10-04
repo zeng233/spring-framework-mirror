@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2019 the original author or authors.
+ * Copyright 2002-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -76,13 +76,13 @@ class ReactiveTypeHandler {
 
 	private static Log logger = LogFactory.getLog(ReactiveTypeHandler.class);
 
-	private final ReactiveAdapterRegistry adapterRegistry;
+	private final ReactiveAdapterRegistry reactiveRegistry;
 
 	private final TaskExecutor taskExecutor;
 
-	private final ContentNegotiationManager contentNegotiationManager;
+	private Boolean taskExecutorWarning;
 
-	private boolean taskExecutorWarning;
+	private final ContentNegotiationManager contentNegotiationManager;
 
 
 	public ReactiveTypeHandler() {
@@ -93,12 +93,10 @@ class ReactiveTypeHandler {
 		Assert.notNull(registry, "ReactiveAdapterRegistry is required");
 		Assert.notNull(executor, "TaskExecutor is required");
 		Assert.notNull(manager, "ContentNegotiationManager is required");
-		this.adapterRegistry = registry;
+		this.reactiveRegistry = registry;
 		this.taskExecutor = executor;
+		this.taskExecutorWarning = executor instanceof SimpleAsyncTaskExecutor || executor instanceof SyncTaskExecutor;
 		this.contentNegotiationManager = manager;
-
-		this.taskExecutorWarning =
-				(executor instanceof SimpleAsyncTaskExecutor || executor instanceof SyncTaskExecutor);
 	}
 
 
@@ -106,7 +104,7 @@ class ReactiveTypeHandler {
 	 * Whether the type can be adapted to a Reactive Streams {@link Publisher}.
 	 */
 	public boolean isReactiveType(Class<?> type) {
-		return (this.adapterRegistry.hasAdapters() && this.adapterRegistry.getAdapter(type) != null);
+		return (this.reactiveRegistry.hasAdapters() && this.reactiveRegistry.getAdapter(type) != null);
 	}
 
 
@@ -121,7 +119,7 @@ class ReactiveTypeHandler {
 			ModelAndViewContainer mav, NativeWebRequest request) throws Exception {
 
 		Assert.notNull(returnValue, "Expected return value");
-		ReactiveAdapter adapter = this.adapterRegistry.getAdapter(returnValue.getClass());
+		ReactiveAdapter adapter = this.reactiveRegistry.getAdapter(returnValue.getClass());
 		Assert.state(adapter != null, () -> "Unexpected return value: " + returnValue);
 
 		ResolvableType elementType = ResolvableType.forMethodParameter(returnType).getGeneric();
@@ -319,7 +317,7 @@ class ReactiveTypeHandler {
 					return;
 				}
 			}
-
+			
 			if (isTerminated) {
 				this.done = true;
 				Throwable ex = this.error;

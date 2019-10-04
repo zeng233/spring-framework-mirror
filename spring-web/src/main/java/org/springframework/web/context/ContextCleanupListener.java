@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2019 the original author or authors.
+ * Copyright 2002-2012 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -54,26 +54,22 @@ public class ContextCleanupListener implements ServletContextListener {
 
 
 	/**
-	 * Find all Spring-internal ServletContext attributes which implement
-	 * {@link DisposableBean} and invoke the destroy method on them.
-	 * @param servletContext the ServletContext to check
-	 * @see DisposableBean#destroy()
+	 * Find all ServletContext attributes which implement {@link DisposableBean}
+	 * and destroy them, removing all affected ServletContext attributes eventually.
+	 * @param sc the ServletContext to check
 	 */
-	static void cleanupAttributes(ServletContext servletContext) {
-		Enumeration<String> attrNames = servletContext.getAttributeNames();
+	static void cleanupAttributes(ServletContext sc) {
+		Enumeration<String> attrNames = sc.getAttributeNames();
 		while (attrNames.hasMoreElements()) {
 			String attrName = attrNames.nextElement();
 			if (attrName.startsWith("org.springframework.")) {
-				Object attrValue = servletContext.getAttribute(attrName);
+				Object attrValue = sc.getAttribute(attrName);
 				if (attrValue instanceof DisposableBean) {
 					try {
 						((DisposableBean) attrValue).destroy();
 					}
 					catch (Throwable ex) {
-						if (logger.isWarnEnabled()) {
-							logger.warn("Invocation of destroy method failed on ServletContext " +
-									"attribute with name '" + attrName + "'", ex);
-						}
+						logger.error("Couldn't invoke destroy method of attribute with name '" + attrName + "'", ex);
 					}
 				}
 			}

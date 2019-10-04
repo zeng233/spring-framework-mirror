@@ -48,7 +48,7 @@ import java.lang.annotation.Target;
  * @see AnnotationAsyncExecutionInterceptor
  * @see AsyncAnnotationAdvisor
  */
-@Target({ElementType.TYPE, ElementType.METHOD})
+@Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface Async {

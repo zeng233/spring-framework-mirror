@@ -65,7 +65,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	public static final String SCOPE_DEFAULT = "";
 
 	/**
-	 * Constant that indicates no external autowiring at all.
+	 * Constant that indicates no autowiring at all.
 	 * @see #setAutowireMode
 	 */
 	public static final int AUTOWIRE_NO = AutowireCapableBeanFactory.AUTOWIRE_NO;
@@ -179,7 +179,8 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	@Nullable
 	private MutablePropertyValues propertyValues;
 
-	private MethodOverrides methodOverrides = new MethodOverrides();
+	@Nullable
+	private MethodOverrides methodOverrides;
 
 	@Nullable
 	private String initMethodName;
@@ -351,8 +352,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 
 	/**
 	 * Apply the provided default values to this bean.
-	 * @param defaults the default settings to apply
-	 * @since 2.5
+	 * @param defaults the defaults to apply
 	 */
 	public void applyDefaults(BeanDefinitionDefaults defaults) {
 		setLazyInit(defaults.isLazyInit());
@@ -396,13 +396,10 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	}
 
 	/**
-	 * Return the class of the wrapped bean (assuming it is resolved already).
-	 * @return the bean class (never {@code null})
+	 * Return the class of the wrapped bean, if already resolved.
+	 * @return the bean class, or {@code null} if none defined
 	 * @throws IllegalStateException if the bean definition does not define a bean class,
-	 * or a specified bean class name has not been resolved into an actual Class yet
-	 * @see #hasBeanClass()
-	 * @see #setBeanClass(Class)
-	 * @see #resolveBeanClass(ClassLoader)
+	 * or a specified bean class name has not been resolved into an actual Class
 	 */
 	public Class<?> getBeanClass() throws IllegalStateException {
 		Object beanClassObject = this.beanClass;
@@ -418,9 +415,6 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 
 	/**
 	 * Return whether this definition specifies a bean class.
-	 * @see #getBeanClass()
-	 * @see #setBeanClass(Class)
-	 * @see #resolveBeanClass(ClassLoader)
 	 */
 	public boolean hasBeanClass() {
 		return (this.beanClass instanceof Class);
@@ -521,7 +515,6 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	/**
 	 * Return whether this bean should be lazily initialized, i.e. not
 	 * eagerly instantiated on startup. Only applicable to a singleton bean.
-	 * @return whether to apply lazy-init semantics ({@code false} by default)
 	 */
 	@Override
 	public boolean isLazyInit() {
@@ -530,9 +523,8 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 
 	/**
 	 * Set the autowire mode. This determines whether any automagical detection
-	 * and setting of bean references will happen. Default is AUTOWIRE_NO
-	 * which means there won't be convention-based autowiring by name or type
-	 * (however, there may still be explicit annotation-driven autowiring).
+	 * and setting of bean references will happen. Default is AUTOWIRE_NO,
+	 * which means there's no autowire.
 	 * @param autowireMode the autowire mode to set.
 	 * Must be one of the constants defined in this class.
 	 * @see #AUTOWIRE_NO
@@ -868,6 +860,9 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 * <p>Never returns {@code null}.
 	 */
 	public MethodOverrides getMethodOverrides() {
+		if (this.methodOverrides == null) {
+			this.methodOverrides = new MethodOverrides();
+		}
 		return this.methodOverrides;
 	}
 
@@ -876,7 +871,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 * @since 5.0.2
 	 */
 	public boolean hasMethodOverrides() {
-		return !this.methodOverrides.isEmpty();
+		return (this.methodOverrides != null && !this.methodOverrides.isEmpty());
 	}
 
 	/**
@@ -1054,9 +1049,10 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	public void validate() throws BeanDefinitionValidationException {
 		if (hasMethodOverrides() && getFactoryMethodName() != null) {
 			throw new BeanDefinitionValidationException(
-					"Cannot combine factory method with container-generated method overrides: " +
-					"the factory method must create the concrete bean instance.");
+					"Cannot combine static factory method with method overrides: " +
+					"the static factory method must create the instance");
 		}
+
 		if (hasBeanClass()) {
 			prepareMethodOverrides();
 		}
@@ -1068,9 +1064,14 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 * @throws BeanDefinitionValidationException in case of validation failure
 	 */
 	public void prepareMethodOverrides() throws BeanDefinitionValidationException {
-		// Check that lookup methods exist and determine their overloaded status.
+		// Check that lookup methods exists.
 		if (hasMethodOverrides()) {
-			getMethodOverrides().getOverrides().forEach(this::prepareMethodOverride);
+			Set<MethodOverride> overrides = getMethodOverrides().getOverrides();
+			synchronized (overrides) {
+				for (MethodOverride mo : overrides) {
+					prepareMethodOverride(mo);
+				}
+			}
 		}
 	}
 

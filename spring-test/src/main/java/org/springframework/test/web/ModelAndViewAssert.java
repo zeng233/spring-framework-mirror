@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2019 the original author or authors.
+ * Copyright 2002-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,8 +25,7 @@ import java.util.Set;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.servlet.ModelAndView;
 
-import static org.springframework.test.util.AssertionErrors.assertTrue;
-import static org.springframework.test.util.AssertionErrors.fail;
+import static org.springframework.test.util.AssertionErrors.*;
 
 /**
  * A collection of assertions intended to simplify testing scenarios dealing
@@ -48,7 +47,7 @@ public abstract class ModelAndViewAssert {
 	 * Checks whether the model value under the given {@code modelName}
 	 * exists and checks it type, based on the {@code expectedType}. If the
 	 * model entry exists and the type matches, the model value is returned.
-	 * @param mav the ModelAndView to test against (never {@code null})
+	 * @param mav ModelAndView to test against (never {@code null})
 	 * @param modelName name of the object to add to the model (never {@code null})
 	 * @param expectedType expected type of the model value
 	 * @return the model value
@@ -67,7 +66,7 @@ public abstract class ModelAndViewAssert {
 
 	/**
 	 * Compare each individual entry in a list, without first sorting the lists.
-	 * @param mav the ModelAndView to test against (never {@code null})
+	 * @param mav ModelAndView to test against (never {@code null})
 	 * @param modelName name of the object to add to the model (never {@code null})
 	 * @param expectedList the expected list
 	 */
@@ -82,7 +81,7 @@ public abstract class ModelAndViewAssert {
 
 	/**
 	 * Assert whether or not a model attribute is available.
-	 * @param mav the ModelAndView to test against (never {@code null})
+	 * @param mav ModelAndView to test against (never {@code null})
 	 * @param modelName name of the object to add to the model (never {@code null})
 	 */
 	public static void assertModelAttributeAvailable(ModelAndView mav, String modelName) {
@@ -93,7 +92,7 @@ public abstract class ModelAndViewAssert {
 	/**
 	 * Compare a given {@code expectedValue} to the value from the model
 	 * bound under the given {@code modelName}.
-	 * @param mav the ModelAndView to test against (never {@code null})
+	 * @param mav ModelAndView to test against (never {@code null})
 	 * @param modelName name of the object to add to the model (never {@code null})
 	 * @param expectedValue the model value
 	 */
@@ -106,7 +105,7 @@ public abstract class ModelAndViewAssert {
 	/**
 	 * Inspect the {@code expectedModel} to see if all elements in the
 	 * model appear and are equal.
-	 * @param mav the ModelAndView to test against (never {@code null})
+	 * @param mav ModelAndView to test against (never {@code null})
 	 * @param expectedModel the expected model
 	 */
 	public static void assertModelAttributeValues(ModelAndView mav, Map<String, Object> expectedModel) {
@@ -136,13 +135,13 @@ public abstract class ModelAndViewAssert {
 	/**
 	 * Compare each individual entry in a list after having sorted both lists
 	 * (optionally using a comparator).
-	 * @param mav the ModelAndView to test against (never {@code null})
+	 * @param mav ModelAndView to test against (never {@code null})
 	 * @param modelName name of the object to add to the model (never {@code null})
 	 * @param expectedList the expected list
 	 * @param comparator the comparator to use (may be {@code null}). If not
 	 * specifying the comparator, both lists will be sorted not using any comparator.
 	 */
-	@SuppressWarnings({"rawtypes", "unchecked"})
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public static void assertSortAndCompareListModelAttribute(
 			ModelAndView mav, String modelName, List expectedList, Comparator comparator) {
 
@@ -160,7 +159,7 @@ public abstract class ModelAndViewAssert {
 	/**
 	 * Check to see if the view name in the ModelAndView matches the given
 	 * {@code expectedName}.
-	 * @param mav the ModelAndView to test against (never {@code null})
+	 * @param mav ModelAndView to test against (never {@code null})
 	 * @param expectedName the name of the model value
 	 */
 	public static void assertViewName(ModelAndView mav, String expectedName) {

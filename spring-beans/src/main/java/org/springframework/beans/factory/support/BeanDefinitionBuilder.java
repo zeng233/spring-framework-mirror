@@ -180,8 +180,6 @@ public class BeanDefinitionBuilder {
 	/**
 	 * Set the name of a non-static factory method to use for this definition,
 	 * including the bean name of the factory instance to call the method on.
-	 * @param factoryMethod the name of the factory method
-	 * @param factoryBean the name of the bean to call the specified factory method on
 	 * @since 4.3.6
 	 */
 	public BeanDefinitionBuilder setFactoryMethodOnBean(String factoryMethod, String factoryBean) {
@@ -211,7 +209,7 @@ public class BeanDefinitionBuilder {
 	}
 
 	/**
-	 * Add the supplied property value under the given property name.
+	 * Add the supplied property value under the given name.
 	 */
 	public BeanDefinitionBuilder addPropertyValue(String name, @Nullable Object value) {
 		this.beanDefinition.getPropertyValues().add(name, value);
@@ -280,7 +278,7 @@ public class BeanDefinitionBuilder {
 	}
 
 	/**
-	 * Set the dependency check mode for this definition.
+	 * Set the depency check mode for this definition.
 	 */
 	public BeanDefinitionBuilder setDependencyCheck(int dependencyCheck) {
 		this.beanDefinition.setDependencyCheck(dependencyCheck);

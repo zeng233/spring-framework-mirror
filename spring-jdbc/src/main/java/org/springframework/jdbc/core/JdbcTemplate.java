@@ -564,7 +564,7 @@ public class JdbcTemplate extends JdbcAccessor implements JdbcOperations {
 			}
 
 			private String appendSql(@Nullable String sql, String statement) {
-				return (StringUtils.hasLength(sql) ? sql + "; " + statement : statement);
+				return (StringUtils.isEmpty(sql) ? statement : sql + "; " + statement);
 			}
 
 			@Override

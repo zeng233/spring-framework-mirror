@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2019 the original author or authors.
+ * Copyright 2002-2012 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -49,7 +49,7 @@ public class DefaultNamespaceHandlerResolverTests {
 	}
 
 	@Test
-	public void testNonExistentHandlerClass() {
+	public void testNonExistentHandlerClass() throws Exception {
 		String mappingPath = "org/springframework/beans/factory/xml/support/nonExistent.properties";
 		try {
 			new DefaultNamespaceHandlerResolver(getClass().getClassLoader(), mappingPath);
@@ -61,18 +61,29 @@ public class DefaultNamespaceHandlerResolverTests {
 	}
 
 	@Test
-	public void testCtorWithNullClassLoaderArgument() {
+	public void testResolveInvalidHandler() throws Exception {
+		String mappingPath = "org/springframework/beans/factory/xml/support/invalid.properties";
+		try {
+			new DefaultNamespaceHandlerResolver(getClass().getClassLoader(), mappingPath);
+			fail("Should not be able to map a class that doesn't implement NamespaceHandler");
+		}
+		catch (Throwable expected) {
+		}
+	}
+
+	@Test
+	public void testCtorWithNullClassLoaderArgument() throws Exception {
 		// simply must not bail...
 		new DefaultNamespaceHandlerResolver(null);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testCtorWithNullClassLoaderArgumentAndNullMappingLocationArgument() {
+	public void testCtorWithNullClassLoaderArgumentAndNullMappingLocationArgument() throws Exception {
 		new DefaultNamespaceHandlerResolver(null, null);
 	}
 
 	@Test
-	public void testCtorWithNonExistentMappingLocationArgument() {
+	public void testCtorWithNonExistentMappingLocationArgument() throws Exception {
 		// simply must not bail; we don't want non-existent resources to result in an Exception
 		new DefaultNamespaceHandlerResolver(null, "738trbc bobabloobop871");
 	}

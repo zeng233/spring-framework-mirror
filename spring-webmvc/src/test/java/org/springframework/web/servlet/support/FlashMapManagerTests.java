@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2019 the original author or authors.
+ * Copyright 2002-2016 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,15 +16,19 @@
 
 package org.springframework.web.servlet.support;
 
+import static org.junit.Assert.*;
+
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import org.springframework.mock.web.test.MockHttpServletRequest;
@@ -32,21 +36,27 @@ import org.springframework.mock.web.test.MockHttpServletResponse;
 import org.springframework.web.servlet.FlashMap;
 import org.springframework.web.util.WebUtils;
 
-import static org.junit.Assert.*;
 
 /**
  * Test fixture for testing {@link AbstractFlashMapManager} methods.
  *
  * @author Rossen Stoyanchev
- * @author Sam Brannen
  */
 public class FlashMapManagerTests {
 
-	private final TestFlashMapManager flashMapManager = new TestFlashMapManager();
+	private TestFlashMapManager flashMapManager;
 
-	private final MockHttpServletRequest request = new MockHttpServletRequest();
+	private MockHttpServletRequest request;
 
-	private final MockHttpServletResponse response = new MockHttpServletResponse();
+	private MockHttpServletResponse response;
+
+
+	@Before
+	public void setup() {
+		this.flashMapManager = new TestFlashMapManager();
+		this.request = new MockHttpServletRequest();
+		this.response = new MockHttpServletResponse();
+	}
 
 
 	@Test
@@ -63,7 +73,9 @@ public class FlashMapManagerTests {
 		assertEquals(flashMap, inputFlashMap);
 	}
 
-	@Test // SPR-8779
+	// SPR-8779
+
+	@Test
 	public void retrieveAndUpdateMatchByOriginatingPath() {
 		FlashMap flashMap = new FlashMap();
 		flashMap.put("key", "value");
@@ -121,7 +133,9 @@ public class FlashMapManagerTests {
 		assertEquals("Input FlashMap should have been removed", 0, this.flashMapManager.getFlashMaps().size());
 	}
 
-	@Test // SPR-8798
+	// SPR-8798
+
+	@Test
 	public void retrieveAndUpdateMatchWithMultiValueParam() {
 		FlashMap flashMap = new FlashMap();
 		flashMap.put("name", "value");
@@ -166,7 +180,7 @@ public class FlashMapManagerTests {
 	}
 
 	@Test
-	public void retrieveAndUpdateRemoveExpired() {
+	public void retrieveAndUpdateRemoveExpired() throws InterruptedException {
 		List<FlashMap> flashMaps = new ArrayList<>();
 		for (int i = 0; i < 5; i++) {
 			FlashMap expiredFlashMap = new FlashMap();
@@ -181,7 +195,7 @@ public class FlashMapManagerTests {
 	}
 
 	@Test
-	public void saveOutputFlashMapEmpty() {
+	public void saveOutputFlashMapEmpty() throws InterruptedException {
 		FlashMap flashMap = new FlashMap();
 
 		this.flashMapManager.saveOutputFlashMap(flashMap, this.request, this.response);
@@ -191,7 +205,7 @@ public class FlashMapManagerTests {
 	}
 
 	@Test
-	public void saveOutputFlashMap() {
+	public void saveOutputFlashMap() throws InterruptedException {
 		FlashMap flashMap = new FlashMap();
 		flashMap.put("name", "value");
 
@@ -205,7 +219,7 @@ public class FlashMapManagerTests {
 	}
 
 	@Test
-	public void saveOutputFlashMapDecodeTargetPath() {
+	public void saveOutputFlashMapDecodeTargetPath() throws InterruptedException {
 		FlashMap flashMap = new FlashMap();
 		flashMap.put("key", "value");
 
@@ -216,7 +230,7 @@ public class FlashMapManagerTests {
 	}
 
 	@Test
-	public void saveOutputFlashMapNormalizeTargetPath() {
+	public void saveOutputFlashMapNormalizeTargetPath() throws InterruptedException {
 		FlashMap flashMap = new FlashMap();
 		flashMap.put("key", "value");
 
@@ -251,19 +265,11 @@ public class FlashMapManagerTests {
 		assertEquals("/once/only", flashMap.getTargetRequestPath());
 	}
 
-	@Test // gh-23240
-	public void saveOutputFlashMapAndNormalizeEmptyTargetPath() {
-		FlashMap flashMap = new FlashMap();
-		flashMap.put("key", "value");
+	// SPR-9657, SPR-11504
 
-		flashMap.setTargetRequestPath("");
-		this.flashMapManager.saveOutputFlashMap(flashMap, this.request, this.response);
-
-		assertEquals("", flashMap.getTargetRequestPath());
-	}
-
-	@Test // SPR-9657, SPR-11504
+	@Test
 	public void saveOutputFlashMapDecodeParameters() throws Exception {
+
 		FlashMap flashMap = new FlashMap();
 		flashMap.put("key", "value");
 		flashMap.setTargetRequestPath("/path");
@@ -289,8 +295,11 @@ public class FlashMapManagerTests {
 		assertEquals("value", flashMap.get("key"));
 	}
 
-	@Test // SPR-12569
+	// SPR-12569
+
+	@Test
 	public void flashAttributesWithQueryParamsWithSpace() throws Exception {
+
 		String encodedValue = URLEncoder.encode("1 2", "UTF-8");
 
 		FlashMap flashMap = new FlashMap();

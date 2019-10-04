@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2019 the original author or authors.
+ * Copyright 2002-2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,8 +31,7 @@ import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 
 /**
- * Resolves method parameters by delegating to a list of registered
- * {@link HandlerMethodArgumentResolver HandlerMethodArgumentResolvers}.
+ * Resolves method parameters by delegating to a list of registered {@link HandlerMethodArgumentResolver}s.
  * Previously resolved method parameters are cached for faster lookups.
  *
  * @author Rossen Stoyanchev
@@ -41,7 +40,6 @@ import org.springframework.web.context.request.NativeWebRequest;
  */
 public class HandlerMethodArgumentResolverComposite implements HandlerMethodArgumentResolver {
 
-	@Deprecated
 	protected final Log logger = LogFactory.getLog(getClass());
 
 	private final List<HandlerMethodArgumentResolver> argumentResolvers = new LinkedList<>();
@@ -59,26 +57,28 @@ public class HandlerMethodArgumentResolverComposite implements HandlerMethodArgu
 	}
 
 	/**
-	 * Add the given {@link HandlerMethodArgumentResolver HandlerMethodArgumentResolvers}.
+	 * Add the given {@link HandlerMethodArgumentResolver}s.
 	 * @since 4.3
 	 */
-	public HandlerMethodArgumentResolverComposite addResolvers(
-			@Nullable HandlerMethodArgumentResolver... resolvers) {
-
+	public HandlerMethodArgumentResolverComposite addResolvers(@Nullable HandlerMethodArgumentResolver... resolvers) {
 		if (resolvers != null) {
-			Collections.addAll(this.argumentResolvers, resolvers);
+			for (HandlerMethodArgumentResolver resolver : resolvers) {
+				this.argumentResolvers.add(resolver);
+			}
 		}
 		return this;
 	}
 
 	/**
-	 * Add the given {@link HandlerMethodArgumentResolver HandlerMethodArgumentResolvers}.
+	 * Add the given {@link HandlerMethodArgumentResolver}s.
 	 */
 	public HandlerMethodArgumentResolverComposite addResolvers(
 			@Nullable List<? extends HandlerMethodArgumentResolver> resolvers) {
 
 		if (resolvers != null) {
-			this.argumentResolvers.addAll(resolvers);
+			for (HandlerMethodArgumentResolver resolver : resolvers) {
+				this.argumentResolvers.add(resolver);
+			}
 		}
 		return this;
 	}
@@ -100,19 +100,17 @@ public class HandlerMethodArgumentResolverComposite implements HandlerMethodArgu
 
 
 	/**
-	 * Whether the given {@linkplain MethodParameter method parameter} is
-	 * supported by any registered {@link HandlerMethodArgumentResolver}.
+	 * Whether the given {@linkplain MethodParameter method parameter} is supported by any registered
+	 * {@link HandlerMethodArgumentResolver}.
 	 */
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
-		return getArgumentResolver(parameter) != null;
+		return (getArgumentResolver(parameter) != null);
 	}
 
 	/**
-	 * Iterate over registered
-	 * {@link HandlerMethodArgumentResolver HandlerMethodArgumentResolvers}
-	 * and invoke the one that supports it.
-	 * @throws IllegalArgumentException if no suitable argument resolver is found
+	 * Iterate over registered {@link HandlerMethodArgumentResolver}s and invoke the one that supports it.
+	 * @throws IllegalStateException if no suitable {@link HandlerMethodArgumentResolver} is found.
 	 */
 	@Override
 	@Nullable
@@ -121,23 +119,25 @@ public class HandlerMethodArgumentResolverComposite implements HandlerMethodArgu
 
 		HandlerMethodArgumentResolver resolver = getArgumentResolver(parameter);
 		if (resolver == null) {
-			throw new IllegalArgumentException("Unsupported parameter type [" +
-					parameter.getParameterType().getName() + "]. supportsParameter should be called first.");
+			throw new IllegalArgumentException("Unknown parameter type [" + parameter.getParameterType().getName() + "]");
 		}
 		return resolver.resolveArgument(parameter, mavContainer, webRequest, binderFactory);
 	}
 
 	/**
-	 * Find a registered {@link HandlerMethodArgumentResolver} that supports
-	 * the given method parameter.
+	 * Find a registered {@link HandlerMethodArgumentResolver} that supports the given method parameter.
 	 */
 	@Nullable
 	private HandlerMethodArgumentResolver getArgumentResolver(MethodParameter parameter) {
 		HandlerMethodArgumentResolver result = this.argumentResolverCache.get(parameter);
 		if (result == null) {
-			for (HandlerMethodArgumentResolver resolver : this.argumentResolvers) {
-				if (resolver.supportsParameter(parameter)) {
-					result = resolver;
+			for (HandlerMethodArgumentResolver methodArgumentResolver : this.argumentResolvers) {
+				if (logger.isTraceEnabled()) {
+					logger.trace("Testing if argument resolver [" + methodArgumentResolver + "] supports [" +
+							parameter.getGenericParameterType() + "]");
+				}
+				if (methodArgumentResolver.supportsParameter(parameter)) {
+					result = methodArgumentResolver;
 					this.argumentResolverCache.put(parameter, result);
 					break;
 				}

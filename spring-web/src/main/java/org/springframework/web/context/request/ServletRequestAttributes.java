@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2019 the original author or authors.
+ * Copyright 2002-2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -188,8 +188,8 @@ public class ServletRequestAttributes extends AbstractRequestAttributes {
 	public void removeAttribute(String name, int scope) {
 		if (scope == SCOPE_REQUEST) {
 			if (isRequestActive()) {
-				removeRequestDestructionCallback(name);
 				this.request.removeAttribute(name);
+				removeRequestDestructionCallback(name);
 			}
 		}
 		else {
@@ -197,8 +197,9 @@ public class ServletRequestAttributes extends AbstractRequestAttributes {
 			if (session != null) {
 				this.sessionAttributesToUpdate.remove(name);
 				try {
-					session.removeAttribute(DESTRUCTION_CALLBACK_NAME_PREFIX + name);
 					session.removeAttribute(name);
+					// Remove any registered destruction callback as well.
+					session.removeAttribute(DESTRUCTION_CALLBACK_NAME_PREFIX + name);
 				}
 				catch (IllegalStateException ex) {
 					// Session invalidated - shouldn't usually happen.
