@@ -27,10 +27,9 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
+import org.apache.log4j.Logger;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.CachedIntrospectionResults;
 import org.springframework.beans.factory.BeanFactory;
@@ -125,6 +124,8 @@ import org.springframework.util.ReflectionUtils;
  */
 public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		implements ConfigurableApplicationContext {
+
+	public static final Logger mylog = Logger.getLogger(AbstractApplicationContext.class);
 
 	/**
 	 * Name of the MessageSource bean in the factory.
@@ -456,6 +457,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * @see org.springframework.core.io.support.PathMatchingResourcePatternResolver
 	 */
 	protected ResourcePatternResolver getResourcePatternResolver() {
+		mylog.debug("初始化PathMatchingResourcePatternResolver");
 		return new PathMatchingResourcePatternResolver(this);
 	}
 
