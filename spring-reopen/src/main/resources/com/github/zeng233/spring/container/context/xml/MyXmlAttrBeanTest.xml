@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="myXmlAttrBean" class="com.github.zeng233.spring.container.context.xml.MyXmlAttrBean" lazy-init="true"/>
+
+	<!--前置依赖的bean会在本bean实例化之前创建好-->
+	<bean id="myXmlAttrBeanB" class="com.github.zeng233.spring.container.context.xml.MyXmlAttrBeanB"
+		  depends-on="myXmlAttrBean"/>
+</beans>
