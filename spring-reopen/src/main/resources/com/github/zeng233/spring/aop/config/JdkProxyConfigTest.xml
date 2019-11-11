@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+	<aop:aspectj-autoproxy />
+
+	<bean id="aopConfigBean" class="com.github.zeng233.spring.aop.config.AopConfigBean"/>
+
+	<!--<bean id="myAdvice" class="mytest.aop.config.MyAdvice"/>-->
+
+	<bean id="aopConfigBeanAspect" class="com.github.zeng233.spring.aop.config.AopConfigBeanAspect"/>
+
+
+	<aop:config>
+		<aop:pointcut expression="execution(* com.github.zeng233.spring.aop.config.*.*(..))" id="pc"/>
+
+		<!--<aop:advisor advice-ref="myAdvice" pointcut-ref="pc"/>-->
+
+		<!-- 这种配置可以包含多个advisor-->
+		<aop:aspect ref="aopConfigBeanAspect">
+			<aop:around method="aroundAdvice" pointcut-ref="pc"/>
+		</aop:aspect>
+	</aop:config>
+</beans>

@@ -31,6 +31,7 @@ import java.util.concurrent.TimeUnit;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.BeanFactoryUtils;
@@ -51,6 +52,7 @@ import org.springframework.util.Assert;
  * @since 3.0
  */
 public class DefaultLifecycleProcessor implements LifecycleProcessor, BeanFactoryAware {
+	public static final Logger mylog = Logger.getLogger(DefaultLifecycleProcessor.class);
 
 	private final Log logger = LogFactory.getLog(getClass());
 
@@ -138,6 +140,7 @@ public class DefaultLifecycleProcessor implements LifecycleProcessor, BeanFactor
 	// Internal helpers
 
 	private void startBeans(boolean autoStartupOnly) {
+		mylog.debug("获取所有LifecycleBeans");
 		Map<String, Lifecycle> lifecycleBeans = getLifecycleBeans();
 		Map<Integer, LifecycleGroup> phases = new HashMap<>();
 		lifecycleBeans.forEach((beanName, bean) -> {

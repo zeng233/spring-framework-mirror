@@ -1,4 +1,4 @@
-package com.github.zeng233.spring.container.bean;
+package com.github.zeng233.spring.container.context.annotation;
 
 import org.junit.Test;
 

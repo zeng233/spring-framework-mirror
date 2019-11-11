@@ -20,6 +20,7 @@ import java.security.AccessControlContext;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.Aware;
 import org.springframework.beans.factory.config.BeanPostProcessor;
@@ -59,6 +60,7 @@ import org.springframework.util.StringValueResolver;
  * @see org.springframework.context.support.AbstractApplicationContext#refresh()
  */
 class ApplicationContextAwareProcessor implements BeanPostProcessor {
+	public static final Logger mylog = Logger.getLogger(ApplicationContextAwareProcessor.class);
 
 	private final ConfigurableApplicationContext applicationContext;
 
@@ -100,6 +102,7 @@ class ApplicationContextAwareProcessor implements BeanPostProcessor {
 	}
 
 	private void invokeAwareInterfaces(Object bean) {
+		mylog.debug("执行Aware生命周期:ResourceLoaderAware、ApplicationEventPublisherAware、MessageSourceAware、ApplicationContextAware");
 		if (bean instanceof Aware) {
 			if (bean instanceof EnvironmentAware) {
 				((EnvironmentAware) bean).setEnvironment(this.applicationContext.getEnvironment());

@@ -1,4 +1,4 @@
-description = "Spring AOP"
+description = "Spring Reopen"
 
 dependencies {
 	optional("junit:junit:4.12")
@@ -9,4 +9,10 @@ dependencies {
 	compile(project(":spring-context"))
 
 
+//	aop测试依赖
+	compile(project(":spring-aop"))
+	compile group: 'org.aspectj', name: 'aspectjweaver', version: '1.8.14'
+
+//	事务测试
+	compile(project(":spring-tx"))
 }

@@ -16,8 +16,11 @@ public class MyXmlBeanTest {
 
 	public static final String PATH = "com/github/zeng233/spring/container/context/xml/MyXmlBeanTest.xml";
 
+	/**
+	 * 测试bean的xml解析流程
+	 */
 	@Test
-	public void testLifeCycle() {
+	public void testXml() {
 		ApplicationContext context = new ClassPathXmlApplicationContext(PATH);
 		System.out.println(context.getBean("mySimpleBean"));
 		mylog.debug("111");

@@ -18,6 +18,7 @@ package org.springframework.context.support;
 
 import java.io.IOException;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.xml.ResourceEntityResolver;
@@ -44,6 +45,7 @@ import org.springframework.lang.Nullable;
  * @see org.springframework.beans.factory.xml.XmlBeanDefinitionReader
  */
 public abstract class AbstractXmlApplicationContext extends AbstractRefreshableConfigApplicationContext {
+	public static final Logger mylog = Logger.getLogger(AbstractXmlApplicationContext.class);
 
 	private boolean validating = true;
 
@@ -79,6 +81,7 @@ public abstract class AbstractXmlApplicationContext extends AbstractRefreshableC
 	 */
 	@Override
 	protected void loadBeanDefinitions(DefaultListableBeanFactory beanFactory) throws BeansException, IOException {
+		mylog.debug("初始化XmlBeanDefinitionReader");
 		// Create a new XmlBeanDefinitionReader for the given BeanFactory.
 		XmlBeanDefinitionReader beanDefinitionReader = new XmlBeanDefinitionReader(beanFactory);
 

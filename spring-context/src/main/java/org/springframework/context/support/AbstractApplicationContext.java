@@ -225,6 +225,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * Create a new AbstractApplicationContext with no parent.
 	 */
 	public AbstractApplicationContext() {
+		mylog.debug("父类初始化资源解析器");
 		this.resourcePatternResolver = getResourcePatternResolver();
 	}
 
@@ -518,40 +519,53 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	@Override
 	public void refresh() throws BeansException, IllegalStateException {
 		synchronized (this.startupShutdownMonitor) {
+			mylog.debug("1、预处理容器，设置容器参数");
 			// Prepare this context for refreshing.
 			prepareRefresh();
 
+			mylog.debug("2、获取DefaultListableBeanFactory");
 			// Tell the subclass to refresh the internal bean factory.
 			ConfigurableListableBeanFactory beanFactory = obtainFreshBeanFactory();
 
+			mylog.debug("3、BeanFactory预处理，忽略ioc容器中的核心类注入到容器中，添加内部处理器，如：BeanPostProcessor");
 			// Prepare the bean factory for use in this context.
 			prepareBeanFactory(beanFactory);
 
 			try {
+				mylog.debug("4、BeanFactory扩展BeanPostProcessor处理，beanFactory.addBeanPostProcessor添加bean的处理器");
 				// Allows post-processing of the bean factory in context subclasses.
 				postProcessBeanFactory(beanFactory);
 
+				//参考占位符处理实现类：PropertyResourceConfigurer
+				mylog.debug("5、调用BeanFactoryPostProcessor，属于插拔技术，用户可以自定义实现类，对bean以前定义或者值进行修改，不会对实例化结果造成影响");
 				// Invoke factory processors registered as beans in the context.
 				invokeBeanFactoryPostProcessors(beanFactory);
 
+				mylog.debug("6、注册BeanPostProcessor实现类");
 				// Register bean processors that intercept bean creation.
 				registerBeanPostProcessors(beanFactory);
 
+				mylog.debug("7、国际化资源处理");
 				// Initialize message source for this context.
 				initMessageSource();
 
+				mylog.debug("8、初始化广播器");
 				// Initialize event multicaster for this context.
 				initApplicationEventMulticaster();
 
+				mylog.debug("9、初始化其他特殊bean需要处理的步骤");
 				// Initialize other special beans in specific context subclasses.
 				onRefresh();
 
+				mylog.debug("10、注册监听器");
 				// Check for listener beans and register them.
 				registerListeners();
 
+				mylog.debug("11、非延时加载单例bean，全部实例化");
 				// Instantiate all remaining (non-lazy-init) singletons.
 				finishBeanFactoryInitialization(beanFactory);
 
+				mylog.debug("12、触发通知事件");
 				// Last step: publish corresponding event.
 				finishRefresh();
 			}
@@ -651,6 +665,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		beanFactory.setBeanExpressionResolver(new StandardBeanExpressionResolver(beanFactory.getBeanClassLoader()));
 		beanFactory.addPropertyEditorRegistrar(new ResourceEditorRegistrar(this, getEnvironment()));
 
+		mylog.debug("实例化bean生命周期处理器：ApplicationContextAwareProcessor");
 		// Configure the bean factory with context callbacks.
 		beanFactory.addBeanPostProcessor(new ApplicationContextAwareProcessor(this));
 		beanFactory.ignoreDependencyInterface(EnvironmentAware.class);
@@ -879,6 +894,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		// Allow for caching all bean definition metadata, not expecting further changes.
 		beanFactory.freezeConfiguration();
 
+		mylog.debug("实例化所有non-lazy-init的bean");
 		// Instantiate all remaining (non-lazy-init) singletons.
 		beanFactory.preInstantiateSingletons();
 	}
@@ -892,12 +908,15 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		// Clear context-level resource caches (such as ASM metadata from scanning).
 		clearResourceCaches();
 
+		mylog.debug("初始化LifecycleProcessor");
 		// Initialize lifecycle processor for this context.
 		initLifecycleProcessor();
 
+		mylog.debug("执行DefaultLifecycleProcessor.onRefresh");
 		// Propagate refresh to lifecycle processor first.
 		getLifecycleProcessor().onRefresh();
 
+		mylog.debug("广播ContextRefreshedEvent事件");
 		// Publish the final event.
 		publishEvent(new ContextRefreshedEvent(this));
 

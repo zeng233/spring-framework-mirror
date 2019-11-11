@@ -22,6 +22,7 @@ import java.util.HashSet;
 import java.util.Set;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.ErrorHandler;
@@ -76,6 +77,8 @@ import org.springframework.util.xml.XmlValidationModeDetector;
  * @see org.springframework.context.support.GenericApplicationContext
  */
 public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
+
+	public static final Logger mylog = Logger.getLogger(XmlBeanDefinitionReader.class);
 
 	/**
 	 * Indicates that the validation should be disabled.
