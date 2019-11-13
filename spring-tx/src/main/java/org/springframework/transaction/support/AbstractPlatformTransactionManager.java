@@ -24,6 +24,7 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import org.apache.log4j.Logger;
 import org.springframework.core.Constants;
 import org.springframework.lang.Nullable;
 import org.springframework.transaction.IllegalTransactionStateException;
@@ -81,6 +82,8 @@ import org.springframework.transaction.UnexpectedRollbackException;
  */
 @SuppressWarnings("serial")
 public abstract class AbstractPlatformTransactionManager implements PlatformTransactionManager, Serializable {
+
+	public static final Logger mylog = Logger.getLogger(AbstractPlatformTransactionManager.class);
 
 	/**
 	 * Always activate transaction synchronization, even for "empty" transactions
@@ -349,6 +352,8 @@ public abstract class AbstractPlatformTransactionManager implements PlatformTran
 			definition = new DefaultTransactionDefinition();
 		}
 
+
+		mylog.debug("判断当前是否有事务存在");
 		if (isExistingTransaction(transaction)) {
 			// Existing transaction found -> check propagation behavior to find out how to behave.
 			return handleExistingTransaction(definition, transaction, debugEnabled);

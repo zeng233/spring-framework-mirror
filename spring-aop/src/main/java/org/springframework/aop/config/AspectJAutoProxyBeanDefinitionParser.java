@@ -16,6 +16,7 @@
 
 package org.springframework.aop.config;
 
+import org.apache.log4j.Logger;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -37,10 +38,13 @@ import org.springframework.lang.Nullable;
  * @since 2.0
  */
 class AspectJAutoProxyBeanDefinitionParser implements BeanDefinitionParser {
+	public static final Logger mylog = Logger.getLogger(AspectJAutoProxyBeanDefinitionParser.class);
 
 	@Override
 	@Nullable
 	public BeanDefinition parse(Element element, ParserContext parserContext) {
+		//此标签两个作用，1、判断是jdk还是cglib动态代理；2、注册注解切面BeanPostProcessor，拦截@Aspect等aop相关类
+		mylog.debug("xml标签注册AnnotationAwareAspectJAutoProxyCreator");
 		AopNamespaceUtils.registerAspectJAnnotationAutoProxyCreatorIfNecessary(parserContext, element);
 		extendBeanDefinition(element, parserContext);
 		return null;

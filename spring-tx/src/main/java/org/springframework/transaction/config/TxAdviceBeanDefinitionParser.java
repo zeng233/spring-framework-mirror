@@ -19,6 +19,7 @@ package org.springframework.transaction.config;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.w3c.dom.Element;
 
 import org.springframework.beans.factory.config.TypedStringValue;
@@ -46,6 +47,7 @@ import org.springframework.util.xml.DomUtils;
  * @since 2.0
  */
 class TxAdviceBeanDefinitionParser extends AbstractSingleBeanDefinitionParser {
+	public static final Logger mylog = Logger.getLogger(TxAdviceBeanDefinitionParser.class);
 
 	private static final String METHOD_ELEMENT = "method";
 
@@ -68,6 +70,7 @@ class TxAdviceBeanDefinitionParser extends AbstractSingleBeanDefinitionParser {
 
 	@Override
 	protected Class<?> getBeanClass(Element element) {
+		mylog.debug("<tx:advice>标签对应TransactionInterceptor");
 		return TransactionInterceptor.class;
 	}
 
@@ -99,6 +102,7 @@ class TxAdviceBeanDefinitionParser extends AbstractSingleBeanDefinitionParser {
 				new ManagedMap<>(methods.size());
 		transactionAttributeMap.setSource(parserContext.extractSource(attrEle));
 
+		mylog.debug("实例化<tx:attributes>对应的对象");
 		for (Element methodEle : methods) {
 			String name = methodEle.getAttribute(METHOD_NAME_ATTRIBUTE);
 			TypedStringValue nameHolder = new TypedStringValue(name);

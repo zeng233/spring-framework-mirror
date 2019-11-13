@@ -19,6 +19,7 @@ package org.springframework.context.annotation;
 import java.lang.annotation.Annotation;
 import java.util.function.Supplier;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.AnnotatedGenericBeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinitionCustomizer;
@@ -46,6 +47,7 @@ import org.springframework.util.Assert;
  * @see AnnotationConfigApplicationContext#register
  */
 public class AnnotatedBeanDefinitionReader {
+	public static final Logger mylog = Logger.getLogger(AnnotatedBeanDefinitionReader.class);
 
 	private final BeanDefinitionRegistry registry;
 
@@ -84,6 +86,8 @@ public class AnnotatedBeanDefinitionReader {
 		Assert.notNull(environment, "Environment must not be null");
 		this.registry = registry;
 		this.conditionEvaluator = new ConditionEvaluator(registry, environment, null);
+
+		mylog.debug("注册注解处理器：@Configuration、@Autowired、@Required、CommonAnnotation(J2EE注解处理：如@Resource)");
 		AnnotationConfigUtils.registerAnnotationConfigProcessors(this.registry);
 	}
 

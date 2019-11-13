@@ -12,6 +12,6 @@
 		<!-- <bean class="mytest.annotation.configuration.AppConfig" /> -->
 		
 		<!-- testConfigWihtScan的配置 -->
-		<bean class="com.github.zeng233.spring.container.context.annotation.AppConfigScan" />
+		<bean class="com.github.zeng233.spring.container.context.annotation.componentsacn.AppScanConfig" />
 	</beans>
 </beans>

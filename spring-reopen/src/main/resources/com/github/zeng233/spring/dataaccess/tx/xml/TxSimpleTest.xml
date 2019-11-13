@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	   xmlns:tx="http://www.springframework.org/schema/tx"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+	<aop:config>
+		<aop:advisor pointcut="execution(* com.github.zeng233.spring.dataaccess.tx.xml..*(..))" advice-ref="myTxAdvice"/>
+	</aop:config>
+
+	<tx:advice id="myTxAdvice">
+		<tx:attributes>
+			<tx:method name="get*" read-only="true"/>
+			<tx:method name="doAction*"/>
+			<!--<tx:method name="doAction*" propagation="REQUIRES_NEW"/>-->
+			<tx:method name="exceptional"/>
+		</tx:attributes>
+	</tx:advice>
+
+	<bean id="txSimpleBean" class="com.github.zeng233.spring.dataaccess.tx.xml.TxSimpleBeanImpl"/>
+</beans>

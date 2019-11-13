@@ -21,6 +21,7 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
 import org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor;
 import org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor;
@@ -61,6 +62,7 @@ import org.springframework.util.ClassUtils;
  * @see org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor
  */
 public class AnnotationConfigUtils {
+	public static final Logger mylog = Logger.getLogger(AnnotationConfigUtils.class);
 
 	/**
 	 * The bean name of the internally managed Configuration annotation processor.
@@ -157,6 +159,7 @@ public class AnnotationConfigUtils {
 
 		Set<BeanDefinitionHolder> beanDefs = new LinkedHashSet<>(8);
 
+		mylog.debug("注册注解处理器：@Configuration、@Autowired、@Required、CommonAnnotation（J2EE注解处理：如@Resource）");
 		if (!registry.containsBeanDefinition(CONFIGURATION_ANNOTATION_PROCESSOR_BEAN_NAME)) {
 			RootBeanDefinition def = new RootBeanDefinition(ConfigurationClassPostProcessor.class);
 			def.setSource(source);

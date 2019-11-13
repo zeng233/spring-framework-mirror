@@ -19,6 +19,7 @@ package org.springframework.aop.config;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.aop.aspectj.annotation.AnnotationAwareAspectJAutoProxyCreator;
 import org.springframework.aop.aspectj.autoproxy.AspectJAwareAdvisorAutoProxyCreator;
 import org.springframework.aop.framework.autoproxy.InfrastructureAdvisorAutoProxyCreator;
@@ -44,6 +45,7 @@ import org.springframework.util.Assert;
  * @see AopNamespaceUtils
  */
 public abstract class AopConfigUtils {
+	public static final Logger mylog = Logger.getLogger(AopConfigUtils.class);
 
 	/**
 	 * The bean name of the internally managed auto-proxy creator.

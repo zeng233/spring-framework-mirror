@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 
-package com.github.zeng233.spring.container.context.annotation;
+package com.github.zeng233.spring.container.context.annotation.componentsacn;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ComponentScan("com.github.zeng233.spring.container.context.annotation")
-public class AppConfigScan {
+@ComponentScan("com.github.zeng233.spring.container.context.annotation.bean")
+public class AppScanConfig {
+
 
 }

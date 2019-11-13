@@ -19,6 +19,7 @@ package org.springframework.aop.config;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -60,6 +61,7 @@ import org.springframework.util.xml.DomUtils;
  * @since 2.0
  */
 class ConfigBeanDefinitionParser implements BeanDefinitionParser {
+	public static final Logger mylog = Logger.getLogger(ConfigBeanDefinitionParser.class);
 
 	private static final String ASPECT = "aspect";
 	private static final String EXPRESSION = "expression";
@@ -103,6 +105,7 @@ class ConfigBeanDefinitionParser implements BeanDefinitionParser {
 				new CompositeComponentDefinition(element.getTagName(), parserContext.extractSource(element));
 		parserContext.pushContainingComponent(compositeDef);
 
+		mylog.debug("注册xml切面配置BeanPostProcessor拦截器：AspectJAwareAdvisorAutoProxyCreator");
 		configureAutoProxyCreator(parserContext, element);
 
 		List<Element> childElts = DomUtils.getChildElements(element);
