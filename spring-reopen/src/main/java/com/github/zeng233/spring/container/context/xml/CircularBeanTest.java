@@ -13,7 +13,9 @@ public class CircularBeanTest {
 
 	/**
 	 * 循环依赖测试
-	 * 参考：https://www.jianshu.com/p/6c359768b1dc
+	 * 参考：
+	 * Spring源码初探-IOC(4)-Bean的初始化-循环依赖的解决：https://www.jianshu.com/p/6c359768b1dc
+	 * Spring-bean的循环依赖以及解决方式：https://blog.csdn.net/u010853261/article/details/77940767
 	 *
 	 *
 	 * Spring单例对象的初始化其实可以分为三步：

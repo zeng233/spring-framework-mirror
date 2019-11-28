@@ -6,6 +6,10 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
+ * 事务测试参考：
+ * Spring的事务 之 9.3 编程式事务 ——跟我学spring3：https://www.iteye.com/blog/jinnianshilongnian-1441271
+ * 深入Spring事务源码剖析事务（一）：https://www.javazhiyin.com/24920.html
+ *
  * @author zenghua
  * @version 1.0.0
  * @email zenghua@haixue.com

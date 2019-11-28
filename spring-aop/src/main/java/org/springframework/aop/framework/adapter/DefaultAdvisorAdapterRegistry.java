@@ -23,6 +23,7 @@ import java.util.List;
 import org.aopalliance.aop.Advice;
 import org.aopalliance.intercept.MethodInterceptor;
 
+import org.apache.log4j.Logger;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
 
@@ -39,6 +40,7 @@ import org.springframework.aop.support.DefaultPointcutAdvisor;
  */
 @SuppressWarnings("serial")
 public class DefaultAdvisorAdapterRegistry implements AdvisorAdapterRegistry, Serializable {
+	public static final Logger mylog = Logger.getLogger(DefaultAdvisorAdapterRegistry.class);
 
 	private final List<AdvisorAdapter> adapters = new ArrayList<>(3);
 
@@ -55,6 +57,7 @@ public class DefaultAdvisorAdapterRegistry implements AdvisorAdapterRegistry, Se
 
 	@Override
 	public Advisor wrap(Object adviceObject) throws UnknownAdviceTypeException {
+		mylog.debug("自定义aop内部会生成Advisor对象");
 		if (adviceObject instanceof Advisor) {
 			return (Advisor) adviceObject;
 		}
