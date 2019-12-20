@@ -7,10 +7,10 @@
 	<!--参考：https://docs.spring.io/spring/docs/current/spring-framework-reference/data-access.html#transaction-strategies -->
 	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource"
 		  destroy-method="close">
-		<property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="url" value="jdbc:mysql://127.0.0.1:3306/spring" />
 		<property name="username" value="root" />
-		<property name="password" value="abcd1234" />
+		<property name="password" value="root" />
 	</bean>
 
 	<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
