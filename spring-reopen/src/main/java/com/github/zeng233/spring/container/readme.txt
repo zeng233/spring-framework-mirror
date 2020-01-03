@@ -1,0 +1,3 @@
+容器测试：
+bean目录主要针对spring-bean,spring-core单纯的BeanFactory容器测试
+context目录主要测试ApplicationContext容器
