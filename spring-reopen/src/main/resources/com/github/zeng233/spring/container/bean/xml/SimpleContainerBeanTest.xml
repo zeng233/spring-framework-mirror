@@ -3,5 +3,5 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="simpleContainer" class="com.github.zeng233.spring.container.bean.xml.SimpleContainer"/>
+	<bean id="simpleContainerBean" class="com.github.zeng233.spring.container.bean.xml.SimpleContainerBean"/>
 </beans>

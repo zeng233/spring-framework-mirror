@@ -6,7 +6,7 @@ package com.github.zeng233.spring.container.bean.xml;
  * @email zenghua@haixue.com
  * @date 2019/11/9 下午9:39
  */
-public class SimpleContainer {
+public class SimpleContainerBean {
 	private Long id;
 
 	private String name;
@@ -15,7 +15,7 @@ public class SimpleContainer {
 	 * 测试AbstractAutowireCapableBeanFactory.instantiationStrategy默认为Cglib策略初始化对象，对象里面必须有空构造函数
 	 * @param id
 	 */
-//	public SimpleContainer(Long id) {
+//	public SimpleContainerBean(Long id) {
 //		this.id = id;
 //	}
 

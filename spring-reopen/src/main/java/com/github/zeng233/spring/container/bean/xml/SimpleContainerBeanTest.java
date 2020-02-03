@@ -14,7 +14,7 @@ import org.springframework.core.io.ClassPathResource;
  * @email zenghua@haixue.com
  * @date 2019/11/9 下午9:14
  */
-public class SimpleContainerTest {
+public class SimpleContainerBeanTest {
 
 	private final DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
 
@@ -22,7 +22,7 @@ public class SimpleContainerTest {
 	@Before
 	public void setUp() throws Exception {
 		BeanDefinitionReader reader = new XmlBeanDefinitionReader(this.beanFactory);
-		ClassPathResource classPathResource = new ClassPathResource("SimpleContainerTest.xml", getClass());
+		ClassPathResource classPathResource = new ClassPathResource("SimpleContainerBeanTest.xml", getClass());
 		reader.loadBeanDefinitions(classPathResource);
 		System.out.println("=============初始化完成============");
 	}
@@ -35,7 +35,7 @@ public class SimpleContainerTest {
 	 */
 	@Test
 	public void testSimpleContainer() {
-		SimpleContainer simpleContainer = beanFactory.getBean("simpleContainer", SimpleContainer.class);
-		System.out.println(simpleContainer);
+		SimpleContainerBean simpleContainerBean = beanFactory.getBean("simpleContainerBean", SimpleContainerBean.class);
+		System.out.println(simpleContainerBean);
 	}
 }
