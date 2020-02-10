@@ -1,4 +1,4 @@
-package com.github.zeng233.spring.container.context.xml.collection;
+package com.github.zeng233.spring.container.context.xml.map;
 
 import com.github.zeng233.spring.container.context.xml.MyXmlBeanTest;
 import org.apache.log4j.Logger;
@@ -20,7 +20,7 @@ import java.util.HashMap;
 public class MapBeanTest {
     public static final Logger mylog = Logger.getLogger(MyXmlBeanTest.class);
 
-    public static final String PATH = "com/github/zeng233/spring/container/context/xml/collection/MapBeanTest.xml";
+    public static final String PATH = "com/github/zeng233/spring/container/context/xml/map/MapBeanTest.xml";
 
     private ApplicationContext context;
 

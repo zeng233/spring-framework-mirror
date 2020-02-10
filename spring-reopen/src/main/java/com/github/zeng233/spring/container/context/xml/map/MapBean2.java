@@ -1,4 +1,4 @@
-package com.github.zeng233.spring.container.context.xml.collection;
+package com.github.zeng233.spring.container.context.xml.map;
 
 /**
  * @Description
@@ -7,7 +7,7 @@ package com.github.zeng233.spring.container.context.xml.collection;
  * @Date 2020/1/3 10:39
  * @Version 1.0
  */
-public class MapBean1 implements MapBean {
+public class MapBean2 implements MapBean {
     private int id;
     private String name;
 
@@ -25,10 +25,5 @@ public class MapBean1 implements MapBean {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    @Override
-    public String toString() {
-        return id + ", " + name;
     }
 }

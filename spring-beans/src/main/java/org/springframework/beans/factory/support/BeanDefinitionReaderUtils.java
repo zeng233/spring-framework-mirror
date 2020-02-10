@@ -16,6 +16,7 @@
 
 package org.springframework.beans.factory.support;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.BeanDefinitionStoreException;
 import org.springframework.beans.factory.BeanFactoryUtils;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -36,6 +37,7 @@ import org.springframework.util.StringUtils;
  * @see org.springframework.beans.factory.xml.DefaultBeanDefinitionDocumentReader
  */
 public class BeanDefinitionReaderUtils {
+	public static final Logger mylog = Logger.getLogger(BeanDefinitionReaderUtils.class);
 
 	/**
 	 * Separator for generated bean names. If a class name or parent name is not
@@ -57,6 +59,8 @@ public class BeanDefinitionReaderUtils {
 	public static AbstractBeanDefinition createBeanDefinition(
 			@Nullable String parentName, @Nullable String className, @Nullable ClassLoader classLoader) throws ClassNotFoundException {
 
+		mylog.debug("创建GenericBeanDefinition");
+		System.out.println("=====创建GenericBeanDefinition=========");
 		GenericBeanDefinition bd = new GenericBeanDefinition();
 		bd.setParentName(parentName);
 		if (className != null) {

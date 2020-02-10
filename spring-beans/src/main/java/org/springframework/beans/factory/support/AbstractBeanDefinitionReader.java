@@ -16,12 +16,9 @@
 
 package org.springframework.beans.factory.support;
 
-import java.io.IOException;
-import java.util.Set;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.BeanDefinitionStoreException;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.EnvironmentCapable;
@@ -32,6 +29,9 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
+
+import java.io.IOException;
+import java.util.Set;
 
 /**
  * Abstract base class for bean definition readers which implement
@@ -46,6 +46,7 @@ import org.springframework.util.Assert;
  * @see BeanDefinitionReaderUtils
  */
 public abstract class AbstractBeanDefinitionReader implements EnvironmentCapable, BeanDefinitionReader {
+	public static final Logger mylog = Logger.getLogger(AbstractBeanDefinitionReader.class);
 
 	/** Logger available to subclasses */
 	protected final Log logger = LogFactory.getLog(getClass());
@@ -84,6 +85,7 @@ public abstract class AbstractBeanDefinitionReader implements EnvironmentCapable
 		Assert.notNull(registry, "BeanDefinitionRegistry must not be null");
 		this.registry = registry;
 
+		mylog.debug("初始化：ResourceLoader、Environment");
 		// Determine ResourceLoader to use.
 		if (this.registry instanceof ResourceLoader) {
 			this.resourceLoader = (ResourceLoader) this.registry;

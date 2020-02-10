@@ -16,12 +16,11 @@
 
 package org.springframework.beans.factory.xml;
 
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinitionHolder;
 import org.springframework.lang.Nullable;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 /**
  * Base interface used by the {@link DefaultBeanDefinitionDocumentReader}
@@ -52,6 +51,8 @@ public interface NamespaceHandler {
 	 * Invoked by the {@link DefaultBeanDefinitionDocumentReader} after
 	 * construction but before any custom elements are parsed.
 	 * @see NamespaceHandlerSupport#registerBeanDefinitionParser(String, BeanDefinitionParser)
+	 *
+	 * 1、初始化BeanDefinitionParser
 	 */
 	void init();
 
@@ -68,6 +69,7 @@ public interface NamespaceHandler {
 	 * @param element the element that is to be parsed into one or more {@code BeanDefinitions}
 	 * @param parserContext the object encapsulating the current state of the parsing process
 	 * @return the primary {@code BeanDefinition} (can be {@code null} as explained above)
+	 * 2、解析标签
 	 */
 	@Nullable
 	BeanDefinition parse(Element element, ParserContext parserContext);
@@ -90,6 +92,7 @@ public interface NamespaceHandler {
 	 * or simply the original bean definition if no decoration is required.
 	 * A {@code null} value is strictly speaking invalid, but will be leniently
 	 * treated like the case where the original bean definition gets returned.
+	 * 3、解析标签里面的子节点
 	 */
 	@Nullable
 	BeanDefinitionHolder decorate(Node source, BeanDefinitionHolder definition, ParserContext parserContext);

@@ -3,17 +3,17 @@
 	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:utils="http://www.springframework.org/schema/util"
 	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
-	<bean id="mapBean1" class="com.github.zeng233.spring.container.context.xml.collection.MapBean1"/>
-	<bean id="mapBean2" class="com.github.zeng233.spring.container.context.xml.collection.MapBean2"/>
+	<bean id="mapBean1" class="com.github.zeng233.spring.container.context.xml.map.MapBean1"/>
+	<bean id="mapBean2" class="com.github.zeng233.spring.container.context.xml.map.MapBean2"/>
 
 	<!--如果不声明map-class属性，默认为什么类型？-->
-	<utils:map id="routeMap" key-type="java.lang.String" value-type="com.github.zeng233.spring.container.context.xml.collection.MapBean" map-class="java.util.HashMap">
+	<utils:map id="routeMap" key-type="java.lang.String" value-type="com.github.zeng233.spring.container.context.xml.map.MapBean" map-class="java.util.HashMap">
 		<entry key="routea" value-ref="mapBean1"/>
 		<entry key="routeb" value-ref="mapBean2"/>
 	</utils:map>
 
 	<!--如果不声明map-class属性，默认为什么类型？-->
-	<utils:map id="enumRouteMap" key-type="com.github.zeng233.spring.container.context.xml.collection.MapTypeEnum" value-type="com.github.zeng233.spring.container.context.xml.collection.MapBean" map-class="java.util.HashMap">
+	<utils:map id="enumRouteMap" key-type="com.github.zeng233.spring.container.context.xml.map.MapTypeEnum" value-type="com.github.zeng233.spring.container.context.xml.map.MapBean" map-class="java.util.HashMap">
 		<entry key="A" value-ref="mapBean1"/>
 		<entry key="B" value-ref="mapBean2"/>
 	</utils:map>

@@ -3,5 +3,6 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="simpleContainerBean" class="com.github.zeng233.spring.container.bean.xml.SimpleContainerBean"/>
+	<!--id与name区别，id是唯一的，name属性代表别名可以多个（用,或者;隔开）-->
+	<bean name="simpleContainerBean" class="com.github.zeng233.spring.container.bean.xml.SimpleContainerBean"/>
 </beans>

@@ -18,9 +18,13 @@ public class SimpleContainerBeanTest {
 
 	private final DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
 
-
+	/**
+	 * 参考{@link org.springframework.beans.factory.xml.XmlBeanCollectionTests}
+	 * @throws Exception
+	 *
+	 */
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		BeanDefinitionReader reader = new XmlBeanDefinitionReader(this.beanFactory);
 		ClassPathResource classPathResource = new ClassPathResource("SimpleContainerBeanTest.xml", getClass());
 		reader.loadBeanDefinitions(classPathResource);
