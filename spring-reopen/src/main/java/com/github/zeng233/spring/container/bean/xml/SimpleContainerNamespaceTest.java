@@ -9,6 +9,9 @@ import org.springframework.core.io.ClassPathResource;
 
 import java.util.ArrayList;
 
+/**
+ * xml标签有命名空间的配置：如<context:annotation-config />主要分析NamespaceHandler
+ */
 public class SimpleContainerNamespaceTest {
 
 	private final DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();

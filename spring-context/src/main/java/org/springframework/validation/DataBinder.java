@@ -16,29 +16,10 @@
 
 package org.springframework.validation;
 
-import java.beans.PropertyEditor;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import org.springframework.beans.ConfigurablePropertyAccessor;
-import org.springframework.beans.MutablePropertyValues;
-import org.springframework.beans.PropertyAccessException;
-import org.springframework.beans.PropertyAccessorUtils;
-import org.springframework.beans.PropertyBatchUpdateException;
-import org.springframework.beans.PropertyEditorRegistry;
-import org.springframework.beans.PropertyValue;
-import org.springframework.beans.PropertyValues;
-import org.springframework.beans.SimpleTypeConverter;
-import org.springframework.beans.TypeConverter;
-import org.springframework.beans.TypeMismatchException;
+import org.apache.log4j.Logger;
+import org.springframework.beans.*;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.format.Formatter;
@@ -48,6 +29,10 @@ import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.PatternMatchUtils;
 import org.springframework.util.StringUtils;
+
+import java.beans.PropertyEditor;
+import java.lang.reflect.Field;
+import java.util.*;
 
 /**
  * Binder that allows for setting property values onto a target object,
@@ -107,6 +92,7 @@ import org.springframework.util.StringUtils;
  * @see org.springframework.context.MessageSource
  */
 public class DataBinder implements PropertyEditorRegistry, TypeConverter {
+	public static final Logger mylog = Logger.getLogger(DataBinder.class);
 
 	/** Default object name used for binding: "target" */
 	public static final String DEFAULT_OBJECT_NAME = "target";
@@ -853,6 +839,7 @@ public class DataBinder implements PropertyEditorRegistry, TypeConverter {
 	 * @see #getBindingResult()
 	 */
 	public void validate() {
+		mylog.debug("开始校验");
 		for (Validator validator : getValidators()) {
 			validator.validate(getTarget(), getBindingResult());
 		}
