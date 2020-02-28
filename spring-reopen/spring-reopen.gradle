@@ -5,8 +5,11 @@ dependencies {
 
 //	单独测试最简单的ioc容器
 	compile(project(":spring-beans"))
-
 	compile(project(":spring-context"))
+	//context validate框架测试
+	optional("javax.validation:validation-api:1.1.0.Final")
+	optional("org.hibernate:hibernate-validator:5.4.3.Final")
+	optional("org.glassfish:javax.el:3.0.1-b08")
 
 
 //	aop测试依赖

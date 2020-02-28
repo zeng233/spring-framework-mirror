@@ -16,12 +16,8 @@
 
 package org.springframework.validation.beanvalidation;
 
-import java.lang.annotation.Annotation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
-
 import org.aopalliance.aop.Advice;
-
+import org.apache.log4j.Logger;
 import org.springframework.aop.Pointcut;
 import org.springframework.aop.framework.autoproxy.AbstractBeanFactoryAwareAdvisingPostProcessor;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
@@ -31,6 +27,10 @@ import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.validation.annotation.Validated;
+
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+import java.lang.annotation.Annotation;
 
 /**
  * A convenient {@link BeanPostProcessor} implementation that delegates to a
@@ -59,6 +59,7 @@ import org.springframework.validation.annotation.Validated;
 @SuppressWarnings("serial")
 public class MethodValidationPostProcessor extends AbstractBeanFactoryAwareAdvisingPostProcessor
 		implements InitializingBean {
+	public static final Logger mylog = Logger.getLogger(MethodValidationPostProcessor.class);
 
 	private Class<? extends Annotation> validatedAnnotationType = Validated.class;
 
@@ -109,6 +110,7 @@ public class MethodValidationPostProcessor extends AbstractBeanFactoryAwareAdvis
 
 	@Override
 	public void afterPropertiesSet() {
+		mylog.debug("初始化注解Validated的poincut配置 ");
 		Pointcut pointcut = new AnnotationMatchingPointcut(this.validatedAnnotationType, true);
 		this.advisor = new DefaultPointcutAdvisor(pointcut, createMethodValidationAdvice(this.validator));
 	}
@@ -122,6 +124,7 @@ public class MethodValidationPostProcessor extends AbstractBeanFactoryAwareAdvis
 	 * @since 4.2
 	 */
 	protected Advice createMethodValidationAdvice(@Nullable Validator validator) {
+		mylog.debug("创建MethodValidationInterceptor拦截器");
 		return (validator != null ? new MethodValidationInterceptor(validator) : new MethodValidationInterceptor());
 	}
 
