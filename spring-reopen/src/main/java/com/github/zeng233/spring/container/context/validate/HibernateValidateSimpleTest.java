@@ -1,5 +1,6 @@
 package com.github.zeng233.spring.container.context.validate;
 
+import org.hibernate.validator.HibernateValidator;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -30,14 +31,39 @@ public class HibernateValidateSimpleTest {
 
     @Test
     public void testNotNull() {
-        HibernateBean hibernateBean = new HibernateBean(null, "a", new Date());
+        HibernateBean hibernateBean = new HibernateBean(null, null, new Date());
         Set<ConstraintViolation<HibernateBean>> constraintViolations =
                 validator.validate(hibernateBean);
+
+        for (ConstraintViolation<HibernateBean> e : constraintViolations) {
+            System.out.println(e.getMessage());
+        }
 
         assertEquals( 1, constraintViolations.size() );
 //        assertEquals(
 //                "may not be null",
 //                constraintViolations.iterator().next().getMessage()
 //        );
+    }
+
+    /**
+     * hibernate validator提供了两种模式：
+     * 参考：springboot使用hibernate validator校验：https://www.cnblogs.com/leeego-123/p/10820099.html
+     */
+    @Test
+    public void testFastFail() {
+        ValidatorFactory validatorFactory = Validation.byProvider( HibernateValidator.class )
+                .configure()
+                .failFast( true )
+                .buildValidatorFactory();
+        Validator validator = validatorFactory.getValidator();
+
+        HibernateBean hibernateBean = new HibernateBean();
+        Set<ConstraintViolation<HibernateBean>> constraintViolations =
+                validator.validate(hibernateBean);
+
+        for (ConstraintViolation<HibernateBean> e : constraintViolations) {
+            System.out.println(e.getMessage());
+        }
     }
 }

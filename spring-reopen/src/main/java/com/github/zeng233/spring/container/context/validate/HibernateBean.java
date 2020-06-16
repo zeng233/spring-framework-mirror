@@ -15,9 +15,12 @@ public class HibernateBean {
     @NotNull(message = "id不能为空")
     private Integer id;
 
+    @NotNull(message = "name不能为空")
     private String name;
 
     private Date createdDate;
+
+    public HibernateBean () {}
 
     public HibernateBean(Integer id, String name, Date createdDate) {
         this.id = id;

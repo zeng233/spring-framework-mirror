@@ -4,6 +4,7 @@ import com.github.zeng233.spring.aop.IPrintBean;
 import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.aop.support.AopUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -29,6 +30,7 @@ public class JdkProxyConfigTest {
 	@Test
 	public void testConfig() {
 		IPrintBean printBean = context.getBean("aopConfigBean", IPrintBean.class);
+		System.out.println("testConfig:" + AopUtils.isAopProxy(printBean));
 		//这里结果为什么为空？ TODO
 //		String result = printBean.print("foo");
 		System.out.println(printBean.print("foo"));
