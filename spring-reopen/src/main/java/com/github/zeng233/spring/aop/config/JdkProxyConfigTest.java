@@ -1,6 +1,7 @@
 package com.github.zeng233.spring.aop.config;
 
 import com.github.zeng233.spring.aop.IPrintBean;
+import com.github.zeng233.spring.aop.Student;
 import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,8 +32,19 @@ public class JdkProxyConfigTest {
 	public void testConfig() {
 		IPrintBean printBean = context.getBean("aopConfigBean", IPrintBean.class);
 		System.out.println("testConfig:" + AopUtils.isAopProxy(printBean));
-		//这里结果为什么为空？ TODO
+		//这里结果为什么为空？ TODO (string 引用问题导致的？？)
 //		String result = printBean.print("foo");
 		System.out.println(printBean.print("foo"));
+	}
+
+	@Test
+	public void testJoinPointArgs() {
+		IPrintBean printBean = context.getBean("aopConfigBean", IPrintBean.class);
+		System.out.println("testConfig:" + AopUtils.isAopProxy(printBean));
+		Student student = new Student();
+		student.setId(1);
+		student.setName("a");
+		Student result = printBean.getStudent(student);
+		System.out.println(result);
 	}
 }

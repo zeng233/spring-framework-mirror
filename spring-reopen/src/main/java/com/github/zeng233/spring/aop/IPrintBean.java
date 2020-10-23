@@ -13,4 +13,11 @@ public interface IPrintBean {
 	 * @return
 	 */
 	String print(String message);
+
+	/**
+	 * 对象测试
+	 * @param student
+	 * @return
+	 */
+	Student getStudent(Student student);
 }
