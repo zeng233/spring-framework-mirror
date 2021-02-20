@@ -1,4 +1,4 @@
-package com.github.zeng233.spring.container.context.annotation.bean;
+package com.github.zeng233.spring.container.context.annotation.componentsacn;
 
 import org.springframework.stereotype.Component;
 

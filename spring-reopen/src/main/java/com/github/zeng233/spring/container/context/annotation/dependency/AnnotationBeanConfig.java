@@ -1,4 +1,4 @@
-package com.github.zeng233.spring.container.context.annotation.config;
+package com.github.zeng233.spring.container.context.annotation.dependency;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

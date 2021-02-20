@@ -1,4 +1,4 @@
-package com.github.zeng233.spring.container.context.annotation.config;
+package com.github.zeng233.spring.container.context.annotation.dependency;
 
 /**
  * @author zenghua

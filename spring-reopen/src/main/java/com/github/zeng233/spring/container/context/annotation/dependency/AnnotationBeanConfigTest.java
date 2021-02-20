@@ -1,9 +1,11 @@
-package com.github.zeng233.spring.container.context.annotation.config;
+package com.github.zeng233.spring.container.context.annotation.dependency;
 
 import org.junit.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 /**
+ * bean依赖注入
+ * 注解
  * @author zenghua
  * @version 1.0.0
  * @email zenghua@haixue.com

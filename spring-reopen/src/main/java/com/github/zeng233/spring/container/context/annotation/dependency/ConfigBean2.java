@@ -1,12 +1,12 @@
-package com.github.zeng233.spring.container.context.annotation.config;
+package com.github.zeng233.spring.container.context.annotation.dependency;
 
 /**
  * @author zenghua
  * @version 1.0.0
  * @email zenghua@haixue.com
- * @date 2019/11/13 下午10:40
+ * @date 2019/11/13 上午11:22
  */
-public class ConfigBean3 {
+public class ConfigBean2 {
 
 	private int id;
 

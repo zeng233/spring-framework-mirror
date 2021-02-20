@@ -4,6 +4,7 @@ import org.junit.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 /**
+ * AppScanConfig通过ComponentScan注解注入bean，包目录下的bean需要添加@Component
  * @author zenghua
  * @version 1.0.0
  * @email zenghua@haixue.com
