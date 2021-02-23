@@ -1,4 +1,4 @@
-package com.github.zeng233.spring.aop;
+package com.github.zeng233.spring.aop.simple;
 
 /**
  * @author zenghua
