@@ -16,6 +16,10 @@ public class AppScanConfigTest {
 	@Test
 	public void testListBean() {
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppScanConfig.class);
+
+		AppScanBean appScanBean = context.getBean(AppScanBean.class);
+		System.out.println(appScanBean.scan());
+
 		for (String beanName : context.getBeanDefinitionNames()) {
 			System.out.println(beanName);
 		}

@@ -10,4 +10,8 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class AppScanBean {
+
+    public String scan() {
+        return "print scan";
+    }
 }
