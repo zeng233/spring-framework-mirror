@@ -2,6 +2,7 @@ package com.github.zeng233.spring.dataaccess.tx.data;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.aop.support.AopUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -32,8 +33,10 @@ public class TxDataTest {
 
 	@Test
 	public void testSave() {
+
 		System.out.println(txDataService);
 		txDataService.save();
+		System.out.println(AopUtils.isAopProxy(txDataService));
 	}
 
 	@Test

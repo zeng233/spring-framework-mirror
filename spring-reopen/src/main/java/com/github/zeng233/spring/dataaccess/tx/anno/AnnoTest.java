@@ -29,6 +29,11 @@ public class AnnoTest {
 
     @Test
     public void testSave() {
-        System.out.println(annoService);
+        annoService.save();
+    }
+
+    @Test
+    public void testSave2() {
+        annoService.save2();
     }
 }

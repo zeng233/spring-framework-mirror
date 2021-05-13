@@ -14,12 +14,12 @@ public class TxDataDao {
 	public void insert() {
 		int random = (int)(Math.random() * 1000);
 		jdbcTemplate.execute(
-				"INSERT INTO USER(user_name, create_time) VALUES('" + random + "', NOW())");
+				"INSERT INTO t_user(user_name, create_time) VALUES('" + random + "', NOW())");
 	}
 
 	public void update(int id) {
 		jdbcTemplate.execute(
-				"UPDATE USER SET user_name = 'updated', create_time=now() WHERE id = " + id);
+				"UPDATE t_user SET user_name = 'updated', create_time=now() WHERE id = " + id);
 	}
 
 	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
