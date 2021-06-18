@@ -13,6 +13,8 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 public class SimpleConfigTest {
 
 	/**
+	 * 参考：org.springframework.context.annotation.AnnotationConfigApplicationContextTests
+	 *
 	 * 测试主流程，
 	 * 也可以手动refresh
 	 * AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();

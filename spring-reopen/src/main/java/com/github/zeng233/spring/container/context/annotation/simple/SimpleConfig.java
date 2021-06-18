@@ -12,6 +12,7 @@ import org.springframework.context.annotation.DependsOn;
  * @Version 1.0
  */
 @Configuration
+//@ComponentScan("com.github.zeng233.spring.container.context.annotation.simple")
 public class SimpleConfig {
 
     @DependsOn
