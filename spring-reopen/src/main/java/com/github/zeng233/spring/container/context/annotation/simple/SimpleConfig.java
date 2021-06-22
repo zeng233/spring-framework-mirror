@@ -12,6 +12,8 @@ import org.springframework.context.annotation.DependsOn;
  * @Version 1.0
  */
 @Configuration
+//ComponentScan也会扫描Configuration注解本身
+//Import注解引入某一个带@Configuration注解的对象
 //@ComponentScan("com.github.zeng233.spring.container.context.annotation.simple")
 public class SimpleConfig {
 
