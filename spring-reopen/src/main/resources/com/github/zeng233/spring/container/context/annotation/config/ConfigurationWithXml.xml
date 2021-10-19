@@ -7,11 +7,6 @@
 
 	<beans>
 		<context:annotation-config />
-		
-		<!-- testConfigWithAnnotation\testConfigWithXml的配置 -->
-		<!-- <bean class="mytest.annotation.configuration.AppConfig" /> -->
-		
-		<!-- testConfigWihtScan的配置 -->
-		<bean class="com.github.zeng233.spring.container.context.annotation.config.componentsacn.AppScanConfig" />
+		<bean class="com.github.zeng233.spring.container.context.annotation.config.ConfigurationWithXml" />
 	</beans>
 </beans>

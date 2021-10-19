@@ -14,22 +14,14 @@
  * limitations under the License.
  */
 
-package com.github.zeng233.spring.container.context.annotation;
+package com.github.zeng233.spring.container.context.annotation.config.componentsacn;
+
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+@ComponentScan("com.github.zeng233.spring.container.context.annotation.config.componentsacn")
+public class AppScanConfig {
 
 
-/**
- * 
- * @author zenghua233
- * @since 4.2.1
- */
-public class MyBean {
-    private MyBean2 myBean2;
-
-    public MyBean(MyBean2 myBean2) {
-        this.myBean2 = myBean2;
-    }
-
-    public MyBean2 getMyBean2() {
-        return myBean2;
-    }
 }

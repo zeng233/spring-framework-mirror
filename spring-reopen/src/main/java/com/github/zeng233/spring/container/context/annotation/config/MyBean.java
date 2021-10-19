@@ -14,32 +14,22 @@
  * limitations under the License.
  */
 
-package com.github.zeng233.spring.container.context.annotation;
+package com.github.zeng233.spring.container.context.annotation.config;
 
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Scope;
 
 /**
  * 
  * @author zenghua233
  * @since 4.2.1
  */
+public class MyBean {
+    private MyBean2 myBean2;
 
-@Configuration
-public class AppConfig {
+    public MyBean(MyBean2 myBean2) {
+        this.myBean2 = myBean2;
+    }
 
-	@Bean(name = "myBean2")
-	public MyBean2 myBean2() {
-		MyBean2 myBean2 = new MyBean2();
-		return myBean2;
-	}
-
-	//默认为singleton
-	@Bean
-	@Scope("singleton")
-	public MyBean myBean(@Qualifier("myBean2") MyBean2 myBean2) {
-		return new MyBean(myBean2);
-	}
+    public MyBean2 getMyBean2() {
+        return myBean2;
+    }
 }

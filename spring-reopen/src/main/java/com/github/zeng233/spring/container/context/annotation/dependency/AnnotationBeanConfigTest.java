@@ -4,7 +4,7 @@ import org.junit.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 /**
- * bean依赖注入
+ * bean依赖注入，测试bean中的各种属性
  * 注解
  * @author zenghua
  * @version 1.0.0
@@ -13,6 +13,15 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
  */
 public class AnnotationBeanConfigTest {
 
+
+	@Test
+	public void testConfigBean() {
+		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AnnotationBeanConfig.class);
+
+		AnnotationBeanConfig annotationBeanConfig = context.getBean(AnnotationBeanConfig.class);
+		System.out.println(annotationBeanConfig);
+		System.out.println(annotationBeanConfig.getConfigBean3());
+	}
 
 	/**
 	 * 通过构造函数注册config对象

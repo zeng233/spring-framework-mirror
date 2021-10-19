@@ -35,4 +35,13 @@ public class AnnotationBeanConfig {
 		ConfigBean3 configBean3 = new ConfigBean3();
 		return configBean3;
 	}
+
+
+	public ConfigBean3 getConfigBean3() {
+		return configBean3;
+	}
+
+	public void setConfigBean3(ConfigBean3 configBean3) {
+		this.configBean3 = configBean3;
+	}
 }

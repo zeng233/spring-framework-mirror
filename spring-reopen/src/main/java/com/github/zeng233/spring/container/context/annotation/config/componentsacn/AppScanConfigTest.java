@@ -1,4 +1,4 @@
-package com.github.zeng233.spring.container.context.annotation.componentsacn;
+package com.github.zeng233.spring.container.context.annotation.config.componentsacn;
 
 import org.junit.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -12,10 +12,15 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
  */
 public class AppScanConfigTest {
 
-
+	/**
+	 * ConfigurationClassPostProcessor->ConfigurationClassParser对ComponentScan、Import注解单独处理
+	 */
 	@Test
 	public void testListBean() {
-		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppScanConfig.class);
+//		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppScanConfig.class);
+		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
+		context.register(AppScanConfig.class);
+		context.refresh();
 
 		AppScanBean appScanBean = context.getBean(AppScanBean.class);
 		System.out.println(appScanBean.scan());
