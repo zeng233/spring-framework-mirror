@@ -3,7 +3,8 @@
 	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
 	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
 
-	<aop:aspectj-autoproxy />
+	<!--expose-proxy是否开启cglib，参考AopNamespaceHandler，注入AspectJAwareAdvisorAutoProxyCreator，比如事务走的代理对象，这里需要配置-->
+	<aop:aspectj-autoproxy expose-proxy="false" />
 
 	<bean id="aopConfigBean" class="com.github.zeng233.spring.aop.config.AopConfigBean"/>
 
@@ -11,7 +12,7 @@
 
 	<bean id="aopConfigBeanAspect" class="com.github.zeng233.spring.aop.config.AopConfigBeanAspect"/>
 
-
+	<!--aop专用标签，注入AspectJAwareAdvisorAutoProxyCreator-->
 	<aop:config>
 		<aop:pointcut expression="execution(* com.github.zeng233.spring.aop.config.*.*(..))" id="pc"/>
 

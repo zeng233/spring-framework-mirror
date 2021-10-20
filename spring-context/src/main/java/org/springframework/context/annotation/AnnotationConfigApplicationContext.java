@@ -69,6 +69,8 @@ public class AnnotationConfigApplicationContext extends GenericApplicationContex
 		this.reader = new AnnotatedBeanDefinitionReader(this);
 		//针对包路径注入，参考本类方法，scan(String... basePackages)
 		this.scanner = new ClassPathBeanDefinitionScanner(this);
+		MyLog.log("=================AnnotationConfigApplicationContext实例化完成===================");
+		System.out.println("1、AnnotationConfigApplicationContext实例化完成");
 	}
 
 	/**

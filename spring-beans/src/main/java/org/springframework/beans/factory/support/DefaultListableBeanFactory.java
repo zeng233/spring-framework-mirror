@@ -701,6 +701,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		List<String> beanNames = new ArrayList<>(this.beanDefinitionNames);
 
 		mylog.debug("判断bean不是抽象的，并且是单例的，并且LazyInit为false");
+		System.out.println("实例化容器bean开始");
 		// Trigger initialization of all non-lazy singleton beans...
 		for (String beanName : beanNames) {
 			RootBeanDefinition bd = getMergedLocalBeanDefinition(beanName);
@@ -729,6 +730,8 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 				}
 			}
 		}
+		mylog.debug("实例化容器bean结束");
+		System.out.println("实例化容器bean结束");
 
 		// Trigger post-initialization callback for all applicable beans...
 		for (String beanName : beanNames) {
