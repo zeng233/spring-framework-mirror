@@ -26,7 +26,7 @@ public class SimpleContainerBeanTest {
 	@Before
 	public void setUp() {
 		BeanDefinitionReader reader = new XmlBeanDefinitionReader(this.beanFactory);
-		ClassPathResource classPathResource = new ClassPathResource("SimpleContainerBeanTest.xml", getClass());
+		ClassPathResource classPathResource = new ClassPathResource("XmlComponentScanTest.xml", getClass());
 		reader.loadBeanDefinitions(classPathResource);
 		System.out.println("=============初始化完成============");
 	}

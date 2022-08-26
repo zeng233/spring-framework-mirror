@@ -18,6 +18,7 @@ package org.springframework.context.annotation;
 
 import org.springframework.core.type.AnnotatedTypeMetadata;
 import org.springframework.util.MultiValueMap;
+import org.springframework.util.MyLog;
 
 /**
  * {@link Condition} that matches based on the value of a {@link Profile @Profile}
@@ -32,6 +33,7 @@ class ProfileCondition implements Condition {
 
 	@Override
 	public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
+		MyLog.log("处理@Profile注解是否有激活文件，否则不会解析configuration、或者bean");
 		MultiValueMap<String, Object> attrs = metadata.getAllAnnotationAttributes(Profile.class.getName());
 		if (attrs != null) {
 			for (Object value : attrs.get("value")) {

@@ -50,7 +50,7 @@ public class ConfigurationAnnoTest {
 	 * 源码分析：<context:annotation-config />-》AnnotationConfigBeanDefinitionParser->ConfigurationClassPostProcessor（310行实例化解析器）
 	 * ->ConfigurationClassParser（282行）
 	 *
-	 * 如果使用AnnotationConfigApplicationContext注入，参考：{@link com.github.zeng233.spring.container.context.annotation.config.componentsacn.AppScanConfigTest}
+	 * 如果使用AnnotationConfigApplicationContext注入，参考：{@link com.github.zeng233.spring.container.context.annotation.config.componentscan.AppScanConfigTest}
 	 */
 	@Test
 	public void testConfigWithXml() {
@@ -66,7 +66,7 @@ public class ConfigurationAnnoTest {
 	 * ->ConfigurationClassParser（282行）解析@ComponentScans注解
 	 * 主要用于批量的bean注入
 	 *
-	 * 如果使用AnnotationConfigApplicationContext注入，参考：{@link com.github.zeng233.spring.container.context.annotation.config.componentsacn.AppScanConfigTest}
+	 * 如果使用AnnotationConfigApplicationContext注入，参考：{@link com.github.zeng233.spring.container.context.annotation.config.componentscan.AppScanConfigTest}
 	 */
 	@Test
 	public void testConfigWihtScanAndXmlIoc() {

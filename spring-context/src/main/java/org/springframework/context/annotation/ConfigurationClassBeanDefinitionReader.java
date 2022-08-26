@@ -141,11 +141,14 @@ class ConfigurationClassBeanDefinitionReader {
 		}
 
 		mylog.debug("解析@Configuration类中注入的Bean");
+		System.out.println("=======解析@Configuration类中注入的Bean=====");
 		for (BeanMethod beanMethod : configClass.getBeanMethods()) {
 			loadBeanDefinitionsForBeanMethod(beanMethod);
 		}
 
 		loadBeanDefinitionsFromImportedResources(configClass.getImportedResources());
+		mylog.debug("springboot注册bean就在这里实现");
+		System.out.println("springboot注册bean就在这里实现");
 		loadBeanDefinitionsFromRegistrars(configClass.getImportBeanDefinitionRegistrars());
 	}
 

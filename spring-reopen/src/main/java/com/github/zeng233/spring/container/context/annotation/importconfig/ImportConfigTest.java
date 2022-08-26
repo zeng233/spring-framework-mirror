@@ -11,6 +11,11 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
  * @Version 1.0
  */
 public class ImportConfigTest {
+
+	/**
+	 * 参考：{@link org.springframework.context.annotation.ConfigurationClassPostProcessor#postProcessBeanDefinitionRegistry(org.springframework.beans.factory.support.BeanDefinitionRegistry)}
+	 * {@link org.springframework.context.annotation.ConfigurationClassParser#parse(java.util.Set)}
+	 */
     @Test
     public void testSimple() {
         AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(ImportConfig.class);

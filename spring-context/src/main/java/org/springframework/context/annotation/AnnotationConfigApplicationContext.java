@@ -63,11 +63,11 @@ public class AnnotationConfigApplicationContext extends GenericApplicationContex
 	 * through {@link #register} calls and then manually {@linkplain #refresh refreshed}.
 	 */
 	public AnnotationConfigApplicationContext() {
-		MyLog.log("执行构造函数父类，实例化DefaultListableBeanFactory，子类实例化AnnotatedBeanDefinitionReader、ClassPathBeanDefinitionScanner");
+		MyLog.log("无参构造函数，先执行父类构造函数，实例化DefaultListableBeanFactory，子类实例化AnnotatedBeanDefinitionReader、ClassPathBeanDefinitionScanner");
 //		super();
 		//针对指定的annotated bean classes，参考类注解，本类方法，register(Class<?>... annotatedClasses)一目了然
 		this.reader = new AnnotatedBeanDefinitionReader(this);
-		//针对包路径注入，参考本类方法，scan(String... basePackages)
+		//针对包路径注入，参考本类方法，scan(String... basePackages)，类似ComponentScan的作用
 		this.scanner = new ClassPathBeanDefinitionScanner(this);
 		MyLog.log("=================AnnotationConfigApplicationContext实例化完成===================");
 		System.out.println("1、AnnotationConfigApplicationContext实例化完成");

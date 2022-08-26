@@ -17,9 +17,13 @@ import org.springframework.context.annotation.DependsOn;
 //@ComponentScan("com.github.zeng233.spring.container.context.annotation.simple")
 public class SimpleConfig {
 
+	/**
+	 * 如果bean注解没有name属性制定名称，就使用方法名称为beanName，参考
+	 * {@link org.springframework.context.annotation.ConfigurationClassBeanDefinitionReader#loadBeanDefinitionsForBeanMethod(org.springframework.context.annotation.BeanMethod)}
+	 */
     @DependsOn
     @Bean
-    public SimpleConfigBean simpleConfigBean() {
+    public SimpleConfigBean simpleConfigBeanM() {
         SimpleConfigBean simpleConfigBean = new SimpleConfigBean();
         return simpleConfigBean;
     }

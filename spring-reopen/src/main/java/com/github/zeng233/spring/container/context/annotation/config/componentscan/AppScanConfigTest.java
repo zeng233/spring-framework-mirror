@@ -1,4 +1,4 @@
-package com.github.zeng233.spring.container.context.annotation.config.componentsacn;
+package com.github.zeng233.spring.container.context.annotation.config.componentscan;
 
 import org.junit.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;

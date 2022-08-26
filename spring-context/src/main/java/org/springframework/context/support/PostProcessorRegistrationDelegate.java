@@ -22,16 +22,29 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
-import org.springframework.beans.factory.support.*;
+import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
+import org.springframework.beans.factory.support.MergedBeanDefinitionPostProcessor;
+import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.core.OrderComparator;
 import org.springframework.core.Ordered;
 import org.springframework.core.PriorityOrdered;
 import org.springframework.lang.Nullable;
 import org.springframework.util.MyLog;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
+ * 作用：
+ * 1、beanFactory为BeanDefinitionRegistry的接口先执行，实现PriorityOrdered、Ordered的BeanDefinitionRegistryPostProcessor先执行，其他的PriorityOrdered、Ordered、其他BeanDefinitionRegistryPostProcessor再执行
+ * 2、beanFactory非BeanDefinitionRegistry，按优先级BeanFactoryPostProcessor排序，分别执行
+ *
  * Delegate for AbstractApplicationContext's post-processor handling.
  *
  * @author Juergen Hoeller
@@ -67,6 +80,8 @@ final class PostProcessorRegistrationDelegate {
 			// Separate between BeanDefinitionRegistryPostProcessors that implement
 			// PriorityOrdered, Ordered, and the rest.
 			List<BeanDefinitionRegistryPostProcessor> currentRegistryProcessors = new ArrayList<>();
+
+			//PriorityOrdered、Ordered、其他BeanDefinitionRegistryPostProcessor的顺序依次注入
 
 			// First, invoke the BeanDefinitionRegistryPostProcessors that implement PriorityOrdered.
 			String[] postProcessorNames =
@@ -122,6 +137,7 @@ final class PostProcessorRegistrationDelegate {
 		}
 
 		else {
+			//处理spring内部框架的BeanFactoryPostProcessor
 			// Invoke factory processors registered with the context instance.
 			invokeBeanFactoryPostProcessors(beanFactoryPostProcessors, beanFactory);
 		}

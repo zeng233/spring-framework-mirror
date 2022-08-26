@@ -6,6 +6,8 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd">
 
 	<beans>
+		<!--标签会被AnnotationConfigBeanDefinitionParser解析，
+		AnnotationConfigUtils.registerAnnotationConfigProcessors注入ConfigurationClassPostProcessor解析注解-->
 		<context:annotation-config />
 		<bean class="com.github.zeng233.spring.container.context.annotation.config.ConfigurationWithXml" />
 	</beans>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!--参考ContextNamespaceHandler，实例化AnnotationConfigBeanDefinitionParser，
+	AnnotationConfigUtils.registerAnnotationConfigProcessors配置注解@Configuration处理器注入容器（ConfigurationClassPostProcessor）-->
+	<context:annotation-config/>
+
+	<!--参考ContextNamespaceHandler，ComponentScanBeanDefinitionParser扫描包，并注册到BeanDefinitionRegistry-->
+	<context:component-scan base-package="com.github.zeng233.spring.container.context.xml.context"/>
+</beans>
