@@ -48,17 +48,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Central dispatcher for HTTP request handlers/controllers, e.g. for web UI controllers
@@ -281,6 +271,7 @@ public class DispatcherServlet extends FrameworkServlet {
 		// This is currently strictly internal and not meant to be customized
 		// by application developers.
 		try {
+			mylog.debug("加载mvc默认strategies配置DispatcherServlet.properties");
 			ClassPathResource resource = new ClassPathResource(DEFAULT_STRATEGIES_PATH, DispatcherServlet.class);
 			defaultStrategies = PropertiesLoaderUtils.loadProperties(resource);
 		}
