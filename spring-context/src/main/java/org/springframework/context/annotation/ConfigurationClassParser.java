@@ -266,7 +266,7 @@ class ConfigurationClassParser {
 		// Recursively process any member (nested) classes first
 		processMemberClasses(configClass, sourceClass);
 
-		MyLog.log("解析@PropertySources注解");
+		MyLog.log("解析@PropertySources注解，将ResourcePropertySource添加到AbstractEnvironment.MutablePropertySources");
 		// Process any @PropertySource annotations
 		for (AnnotationAttributes propertySource : AnnotationConfigUtils.attributesForRepeatable(
 				sourceClass.getMetadata(), PropertySources.class,

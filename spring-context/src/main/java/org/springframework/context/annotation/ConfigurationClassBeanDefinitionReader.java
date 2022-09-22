@@ -141,7 +141,7 @@ class ConfigurationClassBeanDefinitionReader {
 		}
 
 		mylog.debug("解析@Configuration类中注入的Bean");
-		System.out.println("=======解析@Configuration类中注入的Bean=====");
+		System.out.println("=======解析@Configuration类中注入的Bean，解析bean条件注解Conditional中的class对象=====");
 		for (BeanMethod beanMethod : configClass.getBeanMethods()) {
 			loadBeanDefinitionsForBeanMethod(beanMethod);
 		}
@@ -183,6 +183,7 @@ class ConfigurationClassBeanDefinitionReader {
 		MethodMetadata metadata = beanMethod.getMetadata();
 		String methodName = metadata.getMethodName();
 
+		//bean是否满足Conditional中的条件
 		// Do we need to mark the bean as skipped by its condition?
 		if (this.conditionEvaluator.shouldSkip(metadata, ConfigurationPhase.REGISTER_BEAN)) {
 			configClass.skippedBeanMethods.add(methodName);

@@ -1,17 +1,29 @@
 package com.github.zeng233.spring.container.context.annotation.config.env;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.core.env.Environment;
 
 /**
  * @author zenghua
  * @date 2022/8/26
  */
 @Configuration
+@PropertySource("classpath:com/github/zeng233/spring/container/context/annotation/config/env/EnvConfig.properties")
 public class EnvConfig {
+	/**
+	 * Environment注入参考：{@link AbstractApplicationContext#prepareBeanFactory(org.springframework.beans.factory.config.ConfigurableListableBeanFactory)}
+	 */
+	@Autowired
+	private Environment environment;
 
 	@Bean(name = "envBean")
 	public EnvBean buildBean() {
-		return new EnvBean();
+		EnvBean envBean = new EnvBean();
+		envBean.setEnvFoo(environment.getProperty("env.config"));
+		return envBean;
 	}
 }

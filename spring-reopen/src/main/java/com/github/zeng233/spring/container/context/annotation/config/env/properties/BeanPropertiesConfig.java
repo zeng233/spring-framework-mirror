@@ -1,4 +1,4 @@
-package com.github.zeng233.spring.container.context.properties;
+package com.github.zeng233.spring.container.context.annotation.config.env.properties;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -12,7 +12,7 @@ import org.springframework.context.annotation.PropertySource;
  * @Date 2021/12/21 10:54
  * @Version 1.0
  */
-@PropertySource("classpath:com/github/zeng233/spring/container/context/properties/PropertyPlaceholderTest.properties")
+@PropertySource("classpath:com/github/zeng233/spring/container/context/annotation/config/env/properties/BeanPropertiesConfigTest.properties")
 @Configuration
 public class BeanPropertiesConfig {
 	@Value("${attr.foo:default}")

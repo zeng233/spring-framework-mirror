@@ -50,6 +50,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.CompositeIterator;
+import org.springframework.util.MyLog;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
@@ -777,6 +778,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		for (String beanName : beanNames) {
 			Object singletonInstance = getSingleton(beanName);
 			if (singletonInstance instanceof SmartInitializingSingleton) {
+				MyLog.log("执行SmartInitializingSingleton，如：EventListenerMethodProcessor（实例化ApplicationListenerMethodAdapter）");
 				final SmartInitializingSingleton smartSingleton = (SmartInitializingSingleton) singletonInstance;
 				if (System.getSecurityManager() != null) {
 					AccessController.doPrivileged((PrivilegedAction<Object>) () -> {

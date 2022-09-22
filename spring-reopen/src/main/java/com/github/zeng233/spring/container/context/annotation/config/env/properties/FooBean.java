@@ -1,4 +1,4 @@
-package com.github.zeng233.spring.container.context.properties;
+package com.github.zeng233.spring.container.context.annotation.config.env.properties;
 
 /**
  * @Description

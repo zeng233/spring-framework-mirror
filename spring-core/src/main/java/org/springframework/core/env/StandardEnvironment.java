@@ -16,6 +16,8 @@
 
 package org.springframework.core.env;
 
+import org.springframework.util.MyLog;
+
 /**
  * {@link Environment} implementation suitable for use in 'standard' (i.e. non-web)
  * applications.
@@ -75,6 +77,7 @@ public class StandardEnvironment extends AbstractEnvironment {
 	 */
 	@Override
 	protected void customizePropertySources(MutablePropertySources propertySources) {
+		MyLog.log("添加getSystemProperties、getSystemEnvironment");
 		propertySources.addLast(new MapPropertySource(SYSTEM_PROPERTIES_PROPERTY_SOURCE_NAME, getSystemProperties()));
 		propertySources.addLast(new SystemEnvironmentPropertySource(SYSTEM_ENVIRONMENT_PROPERTY_SOURCE_NAME, getSystemEnvironment()));
 	}

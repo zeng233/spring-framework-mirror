@@ -1,4 +1,4 @@
-package com.github.zeng233.spring.container.context.annotation.config.profile;
+package com.github.zeng233.spring.container.context.annotation.config.env.profiles;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -17,6 +17,7 @@ public class ProfileTest {
 	@Before
 	public void before() {
 		context = new AnnotationConfigApplicationContext(ProfileConfig.class);
+//		context.getEnvironment().addActiveProfile("dev1");
 		System.out.println("================context初始化完成=================");
 	}
 

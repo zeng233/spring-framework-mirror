@@ -258,7 +258,7 @@ public class AnnotatedBeanDefinitionReader {
 	 * StandardEnvironment.
 	 */
 	private static Environment getOrCreateEnvironment(BeanDefinitionRegistry registry) {
-		mylog.debug("初始化environment");
+		mylog.debug("初始化environment，默认为StandardEnvironment");
 		Assert.notNull(registry, "BeanDefinitionRegistry must not be null");
 		if (registry instanceof EnvironmentCapable) {
 			return ((EnvironmentCapable) registry).getEnvironment();
