@@ -17,6 +17,7 @@ public class ProfileRootConfigTest {
 	@BeforeClass
 	public static void beforeClass() {
 		context = new AnnotationConfigApplicationContext();
+		//@PropertySource配置spring.profiles.active=config2激活config2的profile
 		context.register(ProfileRootConfig.class);
 		context.refresh();
 	}
