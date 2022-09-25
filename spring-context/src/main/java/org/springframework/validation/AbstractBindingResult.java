@@ -16,22 +16,16 @@
 
 package org.springframework.validation;
 
-import java.beans.PropertyEditor;
-import java.io.Serializable;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.springframework.beans.PropertyEditorRegistry;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
+import org.springframework.util.MyLog;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
+
+import java.beans.PropertyEditor;
+import java.io.Serializable;
+import java.util.*;
 
 /**
  * Abstract implementation of the {@link BindingResult} interface and
@@ -115,6 +109,7 @@ public abstract class AbstractBindingResult extends AbstractErrors implements Bi
 
 		String fixedField = fixedField(field);
 		Object newVal = getActualFieldValue(fixedField);
+		MyLog.log("实例化FieldError，resolveMessageCodes解析errorcode");
 		FieldError fe = new FieldError(getObjectName(), fixedField, newVal, false,
 				resolveMessageCodes(errorCode, field), errorArgs, defaultMessage);
 		addError(fe);
