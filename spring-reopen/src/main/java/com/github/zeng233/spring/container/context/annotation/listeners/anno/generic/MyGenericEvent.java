@@ -5,6 +5,7 @@ import org.springframework.core.ResolvableType;
 import org.springframework.core.ResolvableTypeProvider;
 
 /**
+ * 实现事件ResolvableTypeProvider接口，实现泛型事件
  * @author zenghua
  * @date 2022/9/22
  */

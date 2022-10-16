@@ -27,7 +27,10 @@ public class ValidatorConfigTest {
 		List<FieldError> fieldErrorList = errors.getFieldErrors();
 		System.out.println(fieldErrorList);
 		fieldErrorList.forEach(e -> {
-			System.out.println(e.getCodes());
+			for (String code : e.getCodes()) {
+				System.out.println(code);
+			}
+			System.out.println("==========================");
 		});
 	}
 }
