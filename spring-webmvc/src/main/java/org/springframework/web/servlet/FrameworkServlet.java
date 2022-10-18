@@ -16,17 +16,6 @@
 
 package org.springframework.web.servlet;
 
-import java.io.IOException;
-import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.Callable;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpServletResponseWrapper;
-
 import org.springframework.beans.BeanUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -64,6 +53,17 @@ import org.springframework.web.context.support.XmlWebApplicationContext;
 import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.util.NestedServletException;
 import org.springframework.web.util.WebUtils;
+
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletResponseWrapper;
+import java.io.IOException;
+import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Callable;
 
 /**
  * Base servlet for Spring's web framework. Provides integration with
@@ -524,11 +524,13 @@ public abstract class FrameworkServlet extends HttpServletBean implements Applic
 	 * @see #setContextConfigLocation
 	 */
 	protected WebApplicationContext initWebApplicationContext() {
+
 		WebApplicationContext rootContext =
 				WebApplicationContextUtils.getWebApplicationContext(getServletContext());
 		WebApplicationContext wac = null;
 
 		if (this.webApplicationContext != null) {
+			//实例化DispatcherServlet出入进来的子容器
 			// A context instance was injected at construction time -> use it
 			wac = this.webApplicationContext;
 			if (wac instanceof ConfigurableWebApplicationContext) {
