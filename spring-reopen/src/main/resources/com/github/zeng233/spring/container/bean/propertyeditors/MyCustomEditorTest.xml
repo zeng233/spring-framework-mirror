@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="customEditorConfigurer" class="org.springframework.beans.factory.config.CustomEditorConfigurer">
+		<!--<property name="propertyEditorRegistrars">-->
+			<!--<list>-->
+				<!--&lt;!&ndash;集合类型注册属性编辑器，MyPropertyEditorRegistrar统一处理&ndash;&gt;-->
+				<!--<bean class="com.github.zeng233.spring.container.bean.propertyeditors.MyPropertyEditorRegistrar"/>-->
+			<!--</list>-->
+		<!--</property>-->
+
+		<property name="customEditors">
+			<map>
+				<!--<entry key="java.util.Date" value="mypackage.MyCustomDateEditor"/>-->
+				<!--单个属性注册-->
+				<entry key="com.github.zeng233.spring.container.bean.propertyeditors.MultiNameBean" value="com.github.zeng233.spring.container.bean.propertyeditors.NamePropertyEditor"/>
+			</map>
+		</property>
+
+		<!--<property name="customEditors">-->
+			<!--<map>-->
+				<!--<entry key="com.github.zeng233.spring.container.bean.propertyeditors.MultiNameBean">-->
+					<!--<bean class="com.github.zeng233.spring.container.bean.propertyeditors.NamePropertyEditor"/>-->
+				<!--</entry>-->
+			<!--</map>-->
+		<!--</property>-->
+	</bean>
+
+	<bean id="myCustomEditorBean" class="com.github.zeng233.spring.container.bean.propertyeditors.MyCustomEditorBean">
+		<property name="multiNameBean" value="hello world"/>
+	</bean>
+</beans>

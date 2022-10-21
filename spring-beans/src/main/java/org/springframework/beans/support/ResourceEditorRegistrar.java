@@ -16,16 +16,6 @@
 
 package org.springframework.beans.support;
 
-import java.beans.PropertyEditor;
-import java.io.File;
-import java.io.InputStream;
-import java.io.Reader;
-import java.net.URI;
-import java.net.URL;
-import java.nio.file.Path;
-
-import org.xml.sax.InputSource;
-
 import org.springframework.beans.PropertyEditorRegistrar;
 import org.springframework.beans.PropertyEditorRegistry;
 import org.springframework.beans.PropertyEditorRegistrySupport;
@@ -45,6 +35,16 @@ import org.springframework.core.io.ResourceEditor;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.support.ResourceArrayPropertyEditor;
 import org.springframework.core.io.support.ResourcePatternResolver;
+import org.springframework.util.MyLog;
+import org.xml.sax.InputSource;
+
+import java.beans.PropertyEditor;
+import java.io.File;
+import java.io.InputStream;
+import java.io.Reader;
+import java.net.URI;
+import java.net.URL;
+import java.nio.file.Path;
 
 /**
  * PropertyEditorRegistrar implementation that populates a given
@@ -99,6 +99,7 @@ public class ResourceEditorRegistrar implements PropertyEditorRegistrar {
 	 */
 	@Override
 	public void registerCustomEditors(PropertyEditorRegistry registry) {
+		MyLog.log("添加默认bean编辑器");
 		ResourceEditor baseEditor = new ResourceEditor(this.resourceLoader, this.propertyResolver);
 		doRegisterEditor(registry, Resource.class, baseEditor);
 		doRegisterEditor(registry, ContextResource.class, baseEditor);
