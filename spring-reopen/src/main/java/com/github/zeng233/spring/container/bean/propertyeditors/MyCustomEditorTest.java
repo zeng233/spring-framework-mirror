@@ -75,6 +75,9 @@ public class MyCustomEditorTest {
 				return result;
 			}
 		});
+//		这样手动初始化永远不行的
+//		参考org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireBean，设置转换器之前就已经初始化BeanWrapper
+//		参考org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization，需要配置中先设置到转换器api。DefaultConversionService
 		context.getBeanFactory().setConversionService(configurableConversionService);
 		MyCustomEditorBean myCustomEditorBean = context.getBean("myCustomEditorBean", MyCustomEditorBean.class);
 		System.out.println(myCustomEditorBean.getMultiNameBean());
