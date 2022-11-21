@@ -16,8 +16,6 @@
 
 package org.springframework.format.support;
 
-import java.util.Set;
-
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.EmbeddedValueResolverAware;
@@ -30,6 +28,8 @@ import org.springframework.format.Parser;
 import org.springframework.format.Printer;
 import org.springframework.lang.Nullable;
 import org.springframework.util.StringValueResolver;
+
+import java.util.Set;
 
 /**
  * A factory providing convenient access to a {@code FormattingConversionService}
@@ -158,7 +158,7 @@ public class FormattingConversionServiceFactoryBean
 				}
 			}
 		}
-		if (this.formatterRegistrars != null) {
+			if (this.formatterRegistrars != null) {
 			for (FormatterRegistrar registrar : this.formatterRegistrars) {
 				registrar.registerFormatters(conversionService);
 			}

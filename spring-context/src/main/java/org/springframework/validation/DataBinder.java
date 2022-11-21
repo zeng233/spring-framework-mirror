@@ -19,7 +19,17 @@ package org.springframework.validation;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.Logger;
-import org.springframework.beans.*;
+import org.springframework.beans.ConfigurablePropertyAccessor;
+import org.springframework.beans.MutablePropertyValues;
+import org.springframework.beans.PropertyAccessException;
+import org.springframework.beans.PropertyAccessorUtils;
+import org.springframework.beans.PropertyBatchUpdateException;
+import org.springframework.beans.PropertyEditorRegistry;
+import org.springframework.beans.PropertyValue;
+import org.springframework.beans.PropertyValues;
+import org.springframework.beans.SimpleTypeConverter;
+import org.springframework.beans.TypeConverter;
+import org.springframework.beans.TypeMismatchException;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.format.Formatter;
@@ -32,7 +42,12 @@ import org.springframework.util.StringUtils;
 
 import java.beans.PropertyEditor;
 import java.lang.reflect.Field;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Binder that allows for setting property values onto a target object,
@@ -853,6 +868,7 @@ public class DataBinder implements PropertyEditorRegistry, TypeConverter {
 	 * @see SmartValidator#validate(Object, Errors, Object...)
 	 */
 	public void validate(Object... validationHints) {
+		mylog.debug("执行Validator校验器");
 		for (Validator validator : getValidators()) {
 			if (!ObjectUtils.isEmpty(validationHints) && validator instanceof SmartValidator) {
 				((SmartValidator) validator).validate(getTarget(), getBindingResult(), validationHints);

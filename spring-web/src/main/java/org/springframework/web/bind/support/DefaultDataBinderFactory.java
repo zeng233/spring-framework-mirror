@@ -17,6 +17,7 @@
 package org.springframework.web.bind.support;
 
 import org.springframework.lang.Nullable;
+import org.springframework.util.MyLog;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.context.request.NativeWebRequest;
 
@@ -53,10 +54,13 @@ public class DefaultDataBinderFactory implements WebDataBinderFactory {
 	public final WebDataBinder createBinder(
 			NativeWebRequest webRequest, @Nullable Object target, String objectName) throws Exception {
 
+		MyLog.log("实例化WebDataBinder");
 		WebDataBinder dataBinder = createBinderInstance(target, objectName, webRequest);
 		if (this.initializer != null) {
+			MyLog.log("dataBinder设置validator、messageCodesResolver、bindingErrorProcessor");
 			this.initializer.initBinder(dataBinder, webRequest);
 		}
+		MyLog.log("InitBinderDataBinderFactory.initBinder配置自定义注解@InitBinder的校验器");
 		initBinder(dataBinder, webRequest);
 		return dataBinder;
 	}

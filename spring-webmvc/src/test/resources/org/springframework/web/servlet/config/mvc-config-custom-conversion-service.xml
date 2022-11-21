@@ -7,6 +7,10 @@
 
 	<mvc:annotation-driven conversion-service="conversionService" />
 
-	<bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean" />
+	<bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
+		<property name="converters">
+			<bean class="org.springframework.context.conversionservice.StringToBarConverter" />
+		</property>
+	</bean>
 
 </beans>

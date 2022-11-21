@@ -16,7 +16,18 @@
 
 package org.springframework.core.convert.converter;
 
-import java.awt.Color;
+import org.junit.Test;
+import org.springframework.core.MethodParameter;
+import org.springframework.core.convert.ConversionFailedException;
+import org.springframework.core.convert.ConverterNotFoundException;
+import org.springframework.core.convert.TypeDescriptor;
+import org.springframework.core.convert.support.DefaultConversionService;
+import org.springframework.tests.Assume;
+import org.springframework.tests.TestGroup;
+import org.springframework.util.ClassUtils;
+import org.springframework.util.StopWatch;
+
+import java.awt.*;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -44,20 +55,15 @@ import java.util.TimeZone;
 import java.util.UUID;
 import java.util.stream.Stream;
 
-import org.junit.Test;
-
-import org.springframework.core.MethodParameter;
-import org.springframework.core.convert.ConversionFailedException;
-import org.springframework.core.convert.ConverterNotFoundException;
-import org.springframework.core.convert.TypeDescriptor;
-import org.springframework.core.convert.support.DefaultConversionService;
-import org.springframework.tests.Assume;
-import org.springframework.tests.TestGroup;
-import org.springframework.util.ClassUtils;
-import org.springframework.util.StopWatch;
-
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.Matchers.equalTo;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Unit tests for {@link DefaultConversionService}.
@@ -98,13 +104,13 @@ public class DefaultConversionServiceTests {
 
 	@Test
 	public void testStringToBooleanTrue() {
-		assertEquals(true, conversionService.convert("true", Boolean.class));
-		assertEquals(true, conversionService.convert("on", Boolean.class));
-		assertEquals(true, conversionService.convert("yes", Boolean.class));
-		assertEquals(true, conversionService.convert("1", Boolean.class));
-		assertEquals(true, conversionService.convert("TRUE", Boolean.class));
+//		assertEquals(true, conversionService.convert("true", Boolean.class));
+//		assertEquals(true, conversionService.convert("on", Boolean.class));
+//		assertEquals(true, conversionService.convert("yes", Boolean.class));
+//		assertEquals(true, conversionService.convert("1", Boolean.class));
+//		assertEquals(true, conversionService.convert("TRUE", Boolean.class));
 		assertEquals(true, conversionService.convert("ON", Boolean.class));
-		assertEquals(true, conversionService.convert("YES", Boolean.class));
+//		assertEquals(true, conversionService.convert("YES", Boolean.class));
 	}
 
 	@Test

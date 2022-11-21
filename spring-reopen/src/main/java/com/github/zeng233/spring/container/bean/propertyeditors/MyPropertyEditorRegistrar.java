@@ -5,10 +5,11 @@ import org.springframework.beans.PropertyEditorRegistry;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 
 /**
+ * 参考 {@link org.springframework.jmx.export.CustomDateEditorRegistrar}
  * @author zenghua
  * @date 2022/10/19
  */
@@ -20,7 +21,7 @@ public class MyPropertyEditorRegistrar implements PropertyEditorRegistrar {
 	 */
 	@Override
 	public void registerCustomEditors(PropertyEditorRegistry registry) {
-		DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT, Locale.GERMAN);
+		DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
 		registry.registerCustomEditor(Date.class, new CustomDateEditor(df, true));
 	}
 }

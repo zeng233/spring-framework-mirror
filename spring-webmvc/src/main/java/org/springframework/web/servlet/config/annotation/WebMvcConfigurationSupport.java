@@ -16,15 +16,6 @@
 
 package org.springframework.web.servlet.config.annotation;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.BeanFactoryUtils;
 import org.springframework.beans.factory.BeanInitializationException;
@@ -60,6 +51,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
+import org.springframework.util.MyLog;
 import org.springframework.util.PathMatcher;
 import org.springframework.validation.Errors;
 import org.springframework.validation.MessageCodesResolver;
@@ -97,6 +89,15 @@ import org.springframework.web.servlet.resource.ResourceUrlProviderExposingInter
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.ViewResolverComposite;
 import org.springframework.web.util.UrlPathHelper;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 /**
  * This is the main class providing the configuration behind the MVC Java config.
@@ -277,6 +278,7 @@ public class WebMvcConfigurationSupport implements ApplicationContextAware, Serv
 	 */
 	@Bean
 	public RequestMappingHandlerMapping requestMappingHandlerMapping() {
+		MyLog.log("实例化RequestMappingHandlerMapping");
 		RequestMappingHandlerMapping mapping = createRequestMappingHandlerMapping();
 		mapping.setOrder(0);
 		mapping.setInterceptors(getInterceptors());
@@ -558,11 +560,16 @@ public class WebMvcConfigurationSupport implements ApplicationContextAware, Serv
 	 */
 	@Bean
 	public RequestMappingHandlerAdapter requestMappingHandlerAdapter() {
+		MyLog.log("实例化RequestMappingHandlerAdapter");
 		RequestMappingHandlerAdapter adapter = createRequestMappingHandlerAdapter();
 		adapter.setContentNegotiationManager(mvcContentNegotiationManager());
+		MyLog.log("RequestMappingHandlerAdapter设置setMessageConverters");
 		adapter.setMessageConverters(getMessageConverters());
+		MyLog.log("RequestMappingHandlerAdapter设置setWebBindingInitializer");
 		adapter.setWebBindingInitializer(getConfigurableWebBindingInitializer());
+		MyLog.log("RequestMappingHandlerAdapter设置setCustomArgumentResolvers");
 		adapter.setCustomArgumentResolvers(getArgumentResolvers());
+		MyLog.log("RequestMappingHandlerAdapter设置setCustomReturnValueHandlers");
 		adapter.setCustomReturnValueHandlers(getReturnValueHandlers());
 
 		if (jackson2Present) {
@@ -598,6 +605,7 @@ public class WebMvcConfigurationSupport implements ApplicationContextAware, Serv
 	 * initializing all {@link WebDataBinder} instances.
 	 */
 	protected ConfigurableWebBindingInitializer getConfigurableWebBindingInitializer() {
+		MyLog.log("实例化ConfigurableWebBindingInitializer");
 		ConfigurableWebBindingInitializer initializer = new ConfigurableWebBindingInitializer();
 		initializer.setConversionService(mvcConversionService());
 		initializer.setValidator(mvcValidator());
@@ -629,6 +637,7 @@ public class WebMvcConfigurationSupport implements ApplicationContextAware, Serv
 	 */
 	@Bean
 	public FormattingConversionService mvcConversionService() {
+		MyLog.log("实例化FormattingConversionService");
 		FormattingConversionService conversionService = new DefaultFormattingConversionService();
 		addFormatters(conversionService);
 		return conversionService;
@@ -652,6 +661,7 @@ public class WebMvcConfigurationSupport implements ApplicationContextAware, Serv
 	 */
 	@Bean
 	public Validator mvcValidator() {
+		MyLog.log("实例化Validator");
 		Validator validator = getValidator();
 		if (validator == null) {
 			if (ClassUtils.isPresent("javax.validation.Validator", getClass().getClassLoader())) {

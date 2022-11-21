@@ -4,6 +4,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.core.convert.support.ConfigurableConversionService;
+import org.springframework.core.convert.support.DefaultConversionService;
+
+import java.util.Date;
 
 /**
  * @author zenghua
@@ -36,15 +41,43 @@ public class MyCustomEditorTest {
 	 */
 	@Test
 	public void testSimple() {
-//		System.out.println(MyCustomEditorTest.class.getSimpleName());
-//		MyCustomEditorBean myCustomEditorBean = beanFactory.getBean("myCustomEditorBean", MyCustomEditorBean.class);
-//		System.out.println(myCustomEditorBean.getMultiNameBean());
 
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("com/github/zeng233/spring/container/bean/propertyeditors/MyCustomEditorTest.xml");
 		MyCustomEditorBean myCustomEditorBean = context.getBean("myCustomEditorBean", MyCustomEditorBean.class);
 		System.out.println(myCustomEditorBean.getMultiNameBean());
+		System.out.println(myCustomEditorBean.getCreateDate());
 	}
 
 
-
+	/**
+	 * 参考：org.springframework.context.expression.ApplicationContextExpressionTests
+	 *
+	 * Spring ConversionService to use instead of PropertyEditors
+	 */
+	@Test
+	public void testConversionService() {
+		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("MyConversionService.xml", getClass());
+		//手动设置AbstractBeanFactory.setConversionService，替换PropertyEditors，参考BeanWrapperImpl
+		//AbstractBeanFactory.initBeanWrapper执行
+		ConfigurableConversionService configurableConversionService = new DefaultConversionService();
+		configurableConversionService.addConverter(new Converter<String, Date>() {
+			@Override
+			public Date convert(String source) {
+				System.out.println(source);
+				return new Date();
+			}
+		});
+		configurableConversionService.addConverter(new Converter<String, MultiNameBean>() {
+			@Override
+			public MultiNameBean convert(String source) {
+				String[] name = source.split("\\s");
+				MultiNameBean result = new MultiNameBean(name[0], name[1]);
+				return result;
+			}
+		});
+		context.getBeanFactory().setConversionService(configurableConversionService);
+		MyCustomEditorBean myCustomEditorBean = context.getBean("myCustomEditorBean", MyCustomEditorBean.class);
+		System.out.println(myCustomEditorBean.getMultiNameBean());
+		System.out.println(myCustomEditorBean.getCreateDate());
+	}
 }
