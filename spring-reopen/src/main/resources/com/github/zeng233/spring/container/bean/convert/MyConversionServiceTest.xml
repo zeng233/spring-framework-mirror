@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="myCustomConvertBean" class="com.github.zeng233.spring.container.bean.convert.MyCustomConvertBean">
+		<!--<property name="multiNameBean" value="hello world"/>-->
+		<!--ioc容器默认格式参考org.springframework.context.support.AbstractApplicationContext.prepareBeanFactory，-->
+		<!--<property name="createDate" value="2022/10/27"/>-->
+		<!--转换器：StringToArrayConverter-->
+		<property name="numbers" value="1,2,3,4"/>
+		<!--转换器：StringToCollectionConverter-->
+		<property name="userList" value="a,b,c,d"/>
+	</bean>
+
+	<!--AbstractApplicationContext.finishBeanFactoryInitialization会判断容器中是否有设置conversionService，如果有就先设置到容器中，以便作用于BeanWrapperImpl-->
+	<!--还可以配置ConversionServiceFactoryBean-->
+	<!--参考org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization初始化类型转换器-->
+	<!--converters父类中没有set方法不能注入，只能用ConversionServiceFactoryBean设置自定义的convert-->
+	<!--<bean id="conversionService" class="org.springframework.core.convert.support.DefaultConversionService">-->
+		<!--<property name="converters">-->
+			<!--<set>-->
+				<!--<bean class="com.github.zeng233.spring.container.bean.propertyeditors.String2MultiNameBean"/>-->
+			<!--</set>-->
+		<!--</property>-->
+	<!--</bean>-->
+
+	<bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
+		<property name="converters">
+			<set>
+				<bean class="com.github.zeng233.spring.container.bean.convert.String2UserConvert"/>
+			</set>
+		</property>
+	</bean>
+</beans>
