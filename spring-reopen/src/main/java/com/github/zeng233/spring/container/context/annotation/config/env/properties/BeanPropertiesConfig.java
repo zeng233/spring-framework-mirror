@@ -13,7 +13,7 @@ import org.springframework.context.annotation.PropertySource;
  * @Version 1.0
  */
 @PropertySource("classpath:com/github/zeng233/spring/container/context/annotation/config/env/properties/BeanPropertiesConfigTest.properties")
-@Configuration
+@Configuration("beanPropertiesConfig")
 public class BeanPropertiesConfig {
 	@Value("${attr.foo:default}")
 	private String foo;

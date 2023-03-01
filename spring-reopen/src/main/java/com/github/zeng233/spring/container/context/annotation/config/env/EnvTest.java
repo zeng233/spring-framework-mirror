@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 /**
+ * 参考：org.springframework.web.context.XmlWebApplicationContextTests#environmentMerge()
  * @author zenghua
  * @date 2022/8/26
  */

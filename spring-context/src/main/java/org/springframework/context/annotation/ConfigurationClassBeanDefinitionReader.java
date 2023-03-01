@@ -185,6 +185,7 @@ class ConfigurationClassBeanDefinitionReader {
 
 		//bean是否满足Conditional中的条件
 		// Do we need to mark the bean as skipped by its condition?
+		mylog.debug("bean是否满足Conditional中的条件");
 		if (this.conditionEvaluator.shouldSkip(metadata, ConfigurationPhase.REGISTER_BEAN)) {
 			configClass.skippedBeanMethods.add(methodName);
 			return;

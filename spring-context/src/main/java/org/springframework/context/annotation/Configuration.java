@@ -16,16 +16,16 @@
 
 package org.springframework.context.annotation;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.annotation.AliasFor;
+import org.springframework.stereotype.Component;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.annotation.AliasFor;
-import org.springframework.stereotype.Component;
 
 /**
  * Indicates that a class declares one or more {@link Bean @Bean} methods and
@@ -415,6 +415,9 @@ public @interface Configuration {
 	 * the name/id of the bean element will take precedence.
 	 * @return the suggested component name, if any (or empty String otherwise)
 	 * @see org.springframework.beans.factory.support.DefaultBeanNameGenerator
+	 *
+	 * AliasFor起别名，可以使用父类注解Component的别名，完全写法：@AliasFor(annotation = Component.class，attribute=“value”)
+	 * Configuration(“myConfiguration”)表示bean的名称属性是来自Component的value属性
 	 */
 	@AliasFor(annotation = Component.class)
 	String value() default "";

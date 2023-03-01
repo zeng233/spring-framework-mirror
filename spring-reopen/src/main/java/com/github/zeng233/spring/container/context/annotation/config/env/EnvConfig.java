@@ -16,6 +16,7 @@ import org.springframework.core.env.Environment;
 public class EnvConfig {
 	/**
 	 * Environment注入参考：{@link AbstractApplicationContext#prepareBeanFactory(org.springframework.beans.factory.config.ConfigurableListableBeanFactory)}
+	 * beanFactory.registerSingleton(ENVIRONMENT_BEAN_NAME, getEnvironment());
 	 */
 	@Autowired
 	private Environment environment;
@@ -23,6 +24,7 @@ public class EnvConfig {
 	@Bean(name = "envBean")
 	public EnvBean buildBean() {
 		EnvBean envBean = new EnvBean();
+		//或者使用@Value注解取值
 		envBean.setEnvFoo(environment.getProperty("env.config"));
 		return envBean;
 	}

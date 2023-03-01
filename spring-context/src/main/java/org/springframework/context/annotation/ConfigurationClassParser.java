@@ -296,6 +296,7 @@ class ConfigurationClassParser {
 					if (bdCand == null) {
 						bdCand = holder.getBeanDefinition();
 					}
+					//判断ComponentScan扫描下的bean是否有Configuration注解的类，如果是需要单独处理
 					if (ConfigurationClassUtils.checkConfigurationClassCandidate(bdCand, this.metadataReaderFactory)) {
 						parse(bdCand.getBeanClassName(), holder.getBeanName());
 					}
@@ -326,6 +327,7 @@ class ConfigurationClassParser {
 			configClass.addBeanMethod(new BeanMethod(methodMetadata, configClass));
 		}
 
+		//添加JDK8，default method
 		// Process default methods on interfaces
 		processInterfaces(configClass, sourceClass);
 
@@ -554,6 +556,7 @@ class ConfigurationClassParser {
 			return;
 		}
 
+		MyLog.log("解析实现DeferredImportSelector注解的所有Configuration注解配置类");
 		deferredImports.sort(DEFERRED_IMPORT_COMPARATOR);
 		Map<Object, DeferredImportSelectorGrouping> groupings = new LinkedHashMap<>();
 		Map<AnnotationMetadata, ConfigurationClass> configurationClasses = new HashMap<>();
@@ -609,13 +612,17 @@ class ConfigurationClassParser {
 		else {
 			this.importStack.push(configClass);
 			try {
+				MyLog.log("开始解析@Import注解");
 				for (SourceClass candidate : importCandidates) {
+					//1、解析ImportSelector接口，导入有configuration注解的类；如果Import的configuration类比较多有分组的，
+					//可以实现DeferredImportSelector，springboot自动转配就是从这里获取所有带configuration注解的类名
 					if (candidate.isAssignable(ImportSelector.class)) {
 						// Candidate class is an ImportSelector -> delegate to it to determine imports
 						Class<?> candidateClass = candidate.loadClass();
 						ImportSelector selector = BeanUtils.instantiateClass(candidateClass, ImportSelector.class);
 						ParserStrategyUtils.invokeAwareMethods(
 								selector, this.environment, this.resourceLoader, this.registry);
+						MyLog.log("判断是否有DeferredImportSelector接口，需要延后处理的Configuration配置类");
 						if (this.deferredImportSelectors != null && selector instanceof DeferredImportSelector) {
 							this.deferredImportSelectors.add(
 									new DeferredImportSelectorHolder(configClass, (DeferredImportSelector) selector));
@@ -626,6 +633,7 @@ class ConfigurationClassParser {
 							processImports(configClass, currentSourceClass, importSourceClasses, false);
 						}
 					}
+					//2、bean需要特殊处理的，类似实现BeanPostProcessor接口，实例化bean之前的额外操作
 					else if (candidate.isAssignable(ImportBeanDefinitionRegistrar.class)) {
 						// Candidate class is an ImportBeanDefinitionRegistrar ->
 						// delegate to it to register additional bean definitions
@@ -637,6 +645,7 @@ class ConfigurationClassParser {
 						configClass.addImportBeanDefinitionRegistrar(registrar, currentSourceClass.getMetadata());
 					}
 					else {
+						//3、解析导入的Configuration类
 						// Candidate class not an ImportSelector or ImportBeanDefinitionRegistrar ->
 						// process it as an @Configuration class
 						this.importStack.registerImport(
